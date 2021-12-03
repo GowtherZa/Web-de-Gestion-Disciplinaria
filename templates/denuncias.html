@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'css/denuncias.css'%}">
+    <script defer src="{% static 'js/fa_all.js'%}"></script>
+
+    <title>GDU - Denuncias</title>
+</head>
+<body>
+    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
+    <section class="hero is-primary is-fullheight">  
+
+        <div class="hero-head">
+          <nav class="navbar">
+            <div class="container">
+              <div class="navbar-brand">
+                <a class="navbar-item">
+                  <figure class="image">
+                    <a href="http://www.uci.cu">
+                      <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
+                    </a>
+                  </figure>
+                </a>
+                <span class="navbar-burger" data-target="navbarMenuHeroA">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </div>
+              <div id="navbarMenuHeroA" class="navbar-menu">
+                <div class="navbar-end">
+                  <a class="navbar-item is-active">
+                    Denuncias
+                  </a>
+                  <a class="navbar-item">
+                    Comisiones
+                  </a>
+                  <a class="navbar-item">
+                    Usuarios
+                  </a>
+                  <span class="navbar-item">
+                    <a href="{% url 'autorizacion' %}" class="button is-primary is-inverted">
+                      <span class="icon">
+                        <i class="fa fa-arrow-circle-left"></i>
+                      </span>
+                      <span>Salir</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+          <div class="container">
+            <div class="container is-centered">
+
+              <!-- Tabla -->
+              <div class="box">
+                <div class="table-container">
+                  <table class="table is-hoverable is-fullwidth">
+                    <thead>
+                      <tr>
+                        <th><abbr title="Position">#</abbr></th>
+                        <th>Nombre</th>
+                        <th><abbr title="Personas Involucradas">PI</abbr></th>
+                        <th><abbr title="Denunciante">DN</abbr></th>
+                        <th><abbr title="Area del Evento">AE</abbr></th>
+                        <th><abbr title="Severidad">SD</abbr></th>
+                        <th><abbr title="Anotaciones">AC</abbr></th>
+                      </tr>
+                    </thead>
+                
+                    <tbody>
+                      <tr>
+                        <th>1</th>
+                        <td><a href="#" title="">Xenia Gutierrez</a> 
+                        </td>
+                        <td>Rafael</td>
+                        <td>Erick</td>
+                        <td>Comedor</td>
+                        <td>10</td>
+                        <td>-</td>                            
+                      </tr>
+                      <tr>
+                        <th>2</th>
+                        <td><a href="#" title-"">Darexi Ortega</a></td>
+                        <td>Martin</td>
+                        <td>Rodrigo</td>
+                        <td>Escaleras</td>
+                        <td>7</td>
+                        <td>-</td>
+                      </tr>
+                      <tr>
+                        <th>3</th>
+                        <td><a href="#" title="">Adrian Roda</a></td>
+                        <td>Liuba</td>
+                        <td>Diomedes</td>
+                        <td>Pasillo</td>
+                        <td>6</td>
+                        <td>-</td>
+                      </tr>
+                      <tr class="is-selected">
+                        <th>4</th>
+                        <td><a href="#" title="">Josue Enriquez</a></td>
+                        <td>Yordano,Raul</td>
+                        <td>Lisandra</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>Acto de alto impacto</td>
+                      </tr>
+                      <tr>
+                        <th>5</th>
+                        <td><a href="#" title="">Claudio Fleite</a></td>
+                        <td>Mirella</td>
+                        <td>Amanda</td>
+                        <td>Areas verdes</td>
+                        <td>10</td>
+                        <td>49</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div> 
+
+            </div>
+          </div>
+        </div>
+      
+        <!-- Hero footer: will stick at the bottom -->
+        <div class="hero-foot">
+          <nav class="tabs">
+            <div class="container">
+              <ul>
+                <li class="is-active"><a>Detalles de interes:</a></li>
+                <li><a>Acerca de nosotros</a></li>
+                <li><a>Direccion</a></li>
+                <li><a>Email</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </section>
+    
+</body>
+</html>
