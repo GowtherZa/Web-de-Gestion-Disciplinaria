@@ -13,39 +13,46 @@
     <title>Web de Gestion disciplinaria - GDU</title>
 </head>
 <body> 
+
       <section class="hero is-link is-fullheight">
         <div class="hero-body hero-class">
-            <div class="box is-full">
                 <div class="container is-fluid">
-
-                    <div class="field">
-                        <label class="label">Usuario</label>
-                        <div class="control has-icons-left has-icons-right">
-                          <input class="input is-success is-medium" type="text" placeholder="Nombre de usuario" value="">
-                          <span class="icon is-medium is-left">
-                            <i class="fas fa-user"></i>
-                          </span>
-                        </div>
-                      </div>
-                    
-                      <div class="field">
-                        <label class="label">Contraseña</label>
-                        <div class="control has-icons-left has-icons-right">
-                          <input class="input is-success is-medium" type="password" placeholder="Contraseña" value="">
-                          <span class="icon is-medium is-left">
-                            <i class="fas fa-envelope"></i>
-                          </span>
-                        </div>
-                      </div>
-                    
-                    <div class="field is-grouped">
-                        <div class="control">
-                        <a href="{% url 'denuncias' %}" class="button is-link is-medium">Autenticarse</a>
-                        </div>
+                    <div class="columns is-centered">
+                      <div class="column is-narrow">
+                        <div class="box is-full">
+                          <div class="field">
+                              <label class="label">Usuario</label>
+                              <div class="control has-icons-left has-icons-right">
+                                <input class="input is-success is-medium" type="text" placeholder="Nombre de usuario" value="">
+                                <span class="icon is-medium is-left">
+                                  <i class="fas fa-user"></i>
+                                </span>
+                              </div>
+                          </div>
+                          
+                          <div class="field">
+                            <label class="label">Contraseña</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input is-success is-medium" type="password" placeholder="Contraseña" value="">
+                              <span class="icon is-medium is-left">
+                                  <i class="fas fa-envelope"></i>
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="columns is-centered">
+                            <div class="column is-narrow">
+                              <div class="field is-grouped">
+                                  <div class="control">
+                                  <a href="{% url 'denuncias' %}" class="button is-link is-medium">Autenticarse</a>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                       </div>
                     </div>
-            </div>
-            
-        </div>
+                 </div>
+          </div>
       </section>
 
     
