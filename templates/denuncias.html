@@ -6,46 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
-    <link rel="stylesheet" href="{% static 'css/denuncias.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bulma.css'%}">
+    <link rel="stylesheet" href="{% static 'css/all.css'%}">
+    
     <script defer src="{% static 'js/fa_all.js'%}"></script>
+    <script defer src="{% static 'js/alpine.js'%}"></script>
 
     <title>GDU - Denuncias</title>
 </head>
-<body>
-    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
-    <section class="hero is-primary is-fullheight">  
 
-        <div class="hero-head">
+<body>
+  <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
+  <div class="controller" x-data="{ on_mobile: false , toggled_burger : false}">
+    <section x-on:resize.window="on_mobile = (window.innerWidth < 1024) ? true : false" x-bind:class="on_mobile ? 'hero is-primary' : 'hero is-primary is-fullheight'" class="">  
+      <div class="hero-head">
           <nav class="navbar">
             <div class="container">
               <div class="navbar-brand">
                 <a class="navbar-item">
                   <figure class="image">
-                    <a href="http://www.uci.cu">
+                    <a>
                       <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
                     </a>
                   </figure>
                 </a>
-                <span class="navbar-burger" data-target="navbarMenuHeroA">
+                <span class="navbar-burger burger" id="burger" @click="toggled_burger = !toggled_burger"  data-target="navbarMenuHeroA">
                   <span></span>
                   <span></span>
                   <span></span>
                 </span>
               </div>
-              <div id="navbarMenuHeroA" class="navbar-menu">
+              <div id="navbarMenuHeroA" x-bind:class="toggled_burger ? 'navbar-menu is-active' : 'navbar-menu' ">
                 <div class="navbar-end">
-                  <a class="navbar-item is-active">
-                    Denuncias
-                  </a>
-                  <a class="navbar-item">
-                    Comisiones
-                  </a>
-                  <a class="navbar-item">
-                    Usuarios
-                  </a>
+                  <span class="navbar-item is-active">
+                    <a href="{% url 'denuncias'%}" class="button is-primary is-inverted" href="#">
+                      <span class="icon">
+                        <i class="fas fa-scroll"></i>
+                      </span>
+                      <span>Denuncias</span>
+                    </a>
+                  </span>
                   <span class="navbar-item">
-                    <a href="{% url 'autorizacion' %}" class="button is-primary is-inverted">
+                    <a href="{% url 'comisiones'%}" class="button is-primary is-inverted" href="#">
+                      <span class="icon">
+                        <i class="fas fa-users"></i>
+                      </span>
+                      <span>Comisiones</span>
+                    </a>
+                  </span>
+                  <span class="navbar-item">
+                    <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
+                      <span class="icon">
+                        <i class="fas fa-user-friends"></i>
+                      </span>
+                      <span>Usuarios</span>
+                    </a>
+                  </span>
+                  <span class="navbar-item">
+                    <a href="{% url 'autorization'%}" class="button is-primary is-inverted">
                       <span class="icon">
                         <i class="fa fa-arrow-circle-left"></i>
                       </span>
@@ -63,68 +81,117 @@
           <div class="container">
             <div class="container is-centered">
 
+               <!-- Buscador -->
+               <div class="columns">
+                <div class="column is-offset-8">
+                  <div class="field has-addons">
+                    <div class="control has-icons-left">
+                      <input class="input" type="text" placeholder="Denuncia">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-scroll"></i>
+                      </span>
+                    </div>
+                    <div class="control">
+                      <a class="button is-info">
+                        Buscar Denuncia.
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Tabla -->
               <div class="box">
+
+                <div class="columns is-centered">
+                  <div class="column is-narrow">
+                    <h1 class="title is-5 hero-text">Listado de denuncias</h1>
+                  </div>
+                </div>
+
                 <div class="table-container">
                   <table class="table is-hoverable is-fullwidth">
                     <thead>
                       <tr>
-                        <th><abbr title="Position">#</abbr></th>
-                        <th>Nombre</th>
-                        <th><abbr title="Personas Involucradas">PI</abbr></th>
-                        <th><abbr title="Denunciante">DN</abbr></th>
-                        <th><abbr title="Area del Evento">AE</abbr></th>
-                        <th><abbr title="Severidad">SD</abbr></th>
-                        <th><abbr title="Anotaciones">AC</abbr></th>
+                        <th><abbr title="Posicion"></abbr></th>
+                        <th><abbr title="Descripcion">Desc.</abbr></th>
+                        <th><abbr title="Nombre del denunciante">Nombre</abbr></th>
+                        <th><abbr title="Usuario del denunciante">Usuario denunciante</abbr></th>
+                        <th><abbr title="Usuario del denunciado">Usuario denunciado</abbr></th>
+                        <th><abbr title="Area de la denuncia">Area</abbr></th>
+                        <th><abbr title="Fecha de la denuncia">Fecha</abbr></th>
+                        <th><abbr title="Hora de la denuncia">Hora</abbr></th>
+                        <th></th>
                       </tr>
                     </thead>
                 
                     <tbody>
                       <tr>
                         <th>1</th>
-                        <td><a href="#" title="">Xenia Gutierrez</a> 
+                        <td><a href="{% url 'm_denuncia' %}" title="" onclick="javascript:alert('Detalles de Indisciplina')">Indisciplina</a> 
                         </td>
                         <td>Rafael</td>
-                        <td>Erick</td>
-                        <td>Comedor</td>
-                        <td>10</td>
-                        <td>-</td>                            
+                        <td>@Erick</td>
+                        <td>@Merksi</td>
+                        <td>Comedor 3</td>
+                        <td>11/06/21</td>
+                        <td>10:00</td>   
+                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>                        
                       </tr>
                       <tr>
                         <th>2</th>
-                        <td><a href="#" title-"">Darexi Ortega</a></td>
+                        <td><a href="#" title-"" onclick="javascript:alert('Detalles de fraude')">Fraude</a></td>
                         <td>Martin</td>
-                        <td>Rodrigo</td>
-                        <td>Escaleras</td>
-                        <td>7</td>
-                        <td>-</td>
+                        <td>@Rodrigo</td>
+                        <td>@Chen</td>
+                        <td>Laboratorio 206</td>
+                        <td>01/12/20</td>
+                        <td>7:00</td>
+                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
                       </tr>
                       <tr>
                         <th>3</th>
-                        <td><a href="#" title="">Adrian Roda</a></td>
+                        <td><a href="#" title="" onclick="javascript:alert('Detalles de Falta de respeto')">Falta de respeto</a></td>
                         <td>Liuba</td>
-                        <td>Diomedes</td>
+                        <td>@Diomedes</td>
+                        <td>@Calvi</td>
                         <td>Pasillo</td>
-                        <td>6</td>
-                        <td>-</td>
+                        <td>07/02/21</td>
+                        <td>6:00</td>
+                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
                       </tr>
                       <tr class="is-selected">
                         <th>4</th>
-                        <td><a href="#" title="">Josue Enriquez</a></td>
+                        <td><a href="#" title="" onclick="javascript:alert('Detalles de fraude')">Fraude</a></td>
                         <td>Yordano,Raul</td>
-                        <td>Lisandra</td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td>Acto de alto impacto</td>
+                        <td>@Lisandra</td>
+                        <td>@Pablo</td>
+                        <td>Aula</td>
+                        <td>22/07/21</td>
+                        <td>10:00</td>
+                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
                       </tr>
                       <tr>
                         <th>5</th>
-                        <td><a href="#" title="">Claudio Fleite</a></td>
+                        <td><a href="#" title="" onclick="javascript:alert('Detalles de Ausencia Reiterada')">Ausencia reiterada</a></td>
                         <td>Mirella</td>
-                        <td>Amanda</td>
+                        <td>@Amanda</td>
+                        <td>@Formell</td>
                         <td>Areas verdes</td>
-                        <td>10</td>
-                        <td>49</td>
+                        <td>18/07/21</td>
+                        <td>10:00</td>
+                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
+                      </tr>
+                      <tr>
+                        <th><a href="{% url 'f_denuncia' %}"><span class="fas fa-plus-square"></span></a></th>
+                        <td>-</td>  
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
                       </tr>
                     </tbody>
                   </table>
@@ -139,17 +206,11 @@
         <!-- Hero footer: will stick at the bottom -->
         <div class="hero-foot">
           <nav class="tabs">
-            <div class="container">
-              <ul>
-                <li class="is-active"><a>Detalles de interes:</a></li>
-                <li><a>Acerca de nosotros</a></li>
-                <li><a>Direccion</a></li>
-                <li><a>Email</a></li>
-              </ul>
-            </div>
+            <div class="container"></div>
           </nav>
         </div>
       </section>
-    
+  </div>
+  
 </body>
 </html>

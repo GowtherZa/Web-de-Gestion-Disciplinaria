@@ -1,0 +1,17 @@
+/* Filtrar aqui que elementos permaneceran con select:none */
+html{
+    user-select: none;
+}
+
+.hero-text{
+    color: rgb(15, 15, 15) !important;
+}
+
+.green-text{
+    color: #00d1b2;
+}
+
+.error_hidden{
+    display: none !important;
+}
+

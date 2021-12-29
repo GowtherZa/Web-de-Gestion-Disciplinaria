@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static%}
+
+    <link rel="stylesheet" href="{% static 'css/bulma.css'%}">
+    <link rel="stylesheet" href="{% static 'css/all.css'%}">
+    
+    <script defer src="{% static 'js/fa_all.js'%}"></script>
+    <script defer src="{% static 'js/alpine.js'%}"></script>
+
+    <title>GDU</title>
+</head>
+<body>
+
+    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
+    <section class="hero is-primary is-fullheight">  
+
+        <div class="hero-head">
+          <nav class="navbar">
+            <div class="container">
+              <div class="navbar-brand">
+                <a class="navbar-item">
+                  <figure class="image">
+                    <a>
+                      <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
+                    </a>
+                  </figure>
+                </a>
+                <span class="navbar-burger" data-target="navbarMenuHeroA">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </div>
+              <div id="navbarMenuHeroA" class="navbar-menu">
+                
+                <div class="navbar-end">
+                  <span class="navbar-item is-active">
+                    <a href="{% url 'denuncias' %}" class="button is-primary is-inverted" href="#">
+                      <span class="icon">
+                        <i class="fas fa-scroll"></i>
+                      </span>
+                      <span>Denuncias</span>
+                    </a>
+                  </span>
+                  <span class="navbar-item">
+                    <a href="{% url 'autorization' %}" class="button is-primary is-inverted">
+                      <span class="icon">
+                        <i class="fa fa-arrow-right"></i>
+                      </span>
+                      <span>Iniciar sesi&oacuten</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+          <div class="container">
+            <div class="container is-centered">
+
+              <!-- Tabla -->
+              <div class="box">
+                <div class="container has-text-centered">
+                  <h1 class="title is-3 hero-text">Web de Gesti&oacute;n de Incidentes Disciplinarios UCI</h1>
+                  <h2 class="subtitle is-5 hero-text">En nuestra web encontrar&aacute; una herramienta potente para la gesti&oacute;n y procesamiento de incidentes disciplinarios asi como acceder a datos de los mismos</h2>
+                </div>
+              </div> 
+
+
+            </div>
+          </div>
+        </div>
+      
+        <!-- Hero footer: will stick at the bottom -->
+        <div class="hero-foot">
+        </div>
+      </section>
+    
+</body>
+</html>

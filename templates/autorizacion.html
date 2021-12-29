@@ -8,54 +8,61 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
     <link rel="stylesheet" href="{% static 'css/authorization.css'%}">
+    <link rel="stylesheet" href="{% static 'css/all.css'%}">
+
     <script defer src="{% static 'js/fa_all.js'%}"></script>
-    
+    <script defer src="{% static 'js/iodine.min.js'%}"></script>
+    <script defer src="{% static 'js/validations.js'%}"></script>
+
     <title>Web de Gestion disciplinaria - GDU</title>
 </head>
 <body> 
 
-      <section class="hero is-link is-fullheight">
-        <div class="hero-body hero-class">
-                <div class="container is-fluid">
-                    <div class="columns is-centered">
-                      <div class="column is-narrow">
-                        <div class="box is-full">
-                          <div class="field">
-                              <label class="label">Usuario</label>
-                              <div class="control has-icons-left has-icons-right">
-                                <input class="input is-success is-medium" type="text" placeholder="Nombre de usuario" value="">
-                                <span class="icon is-medium is-left">
-                                  <i class="fas fa-user"></i>
-                                </span>
+  <section  class="hero is-link is-fullheight">
+    <div class="hero-body hero-class">
+            <div class="container is-fluid">
+                <div class="columns is-centered">
+                  <div class="column is-narrow">
+                    <div class="box is-full" id="form">
+                      <div class="field">
+                          <label class="label">Usuario</label>
+                          <div class="control has-icons-left has-icons-right">
+                            <input id="user" data-rules='["required"]' class="input is-success is-medium"  type="text" placeholder="Nombre de usuario" value="">
+                            <span class="icon is-medium is-left">
+                              <i class="fas fa-user"></i>
+                            </span>
+                            <p id="user_error" class="error_hidden help is-danger">Debe introducir su usuario</p>
+                          </div>
+                      </div>
+                      <div class="field">
+                        <label class="label">Contraseña</label>
+                        <div class="control has-icons-left has-icons-right">
+                          <input id="pass" data-rules='["required"]' class="input is-success is-medium" type="password" placeholder="Contraseña" value="">
+                          <span class="icon is-medium is-left">
+                              <i class="fas fa-envelope"></i>
+                          </span>
+                          <p id="pass_error" class="error_hidden help is-danger">Debe introducir su contraseña</p>
+                        </div>
+                      </div>
+                      
+                      <div class="columns is-centered">
+                        <div class="column is-narrow">
+                          <div class="field is-grouped">
+                              <div class="control">
+                                <a href="{% url 'denuncias' %}" onclick='validate(event)' class="button is-link is-medium">Autenticarse</a>
+                              </div>
+                              <div class="control">
+                                <a href="{% url 'index' %}" class="button is-medium">Cancelar</a>
                               </div>
                           </div>
-                          
-                          <div class="field">
-                            <label class="label">Contraseña</label>
-                            <div class="control has-icons-left has-icons-right">
-                              <input class="input is-success is-medium" type="password" placeholder="Contraseña" value="">
-                              <span class="icon is-medium is-left">
-                                  <i class="fas fa-envelope"></i>
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div class="columns is-centered">
-                            <div class="column is-narrow">
-                              <div class="field is-grouped">
-                                  <div class="control">
-                                  <a href="{% url 'denuncias' %}" class="button is-link is-medium">Autenticarse</a>
-                                  </div>
-                              </div>
-                            </div>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-          </div>
-      </section>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+      </div>
+  </section>
 
-    
 
 </body>
 </html>

@@ -19,7 +19,19 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    path('',views.autorizacion,name='autorizacion'),
+    path('auth/',views.autorizacion,name='autorization'),
     path('admin/', admin.site.urls),    # Valorar el quitarlo.
-    path('denuncias/',views.denuncias, name='denuncias') # Valora cambiar por base para luego aplicar herencia.
+    path('',views.index, name='index'),
+    path('denuncias/',views.denuncias, name='denuncias'), # Valora cambiar por base para luego aplicar herencia.
+    path('usuarios/',views.usuarios, name='usuarios'),
+    path('comisiones/',views.comisiones, name='comisiones'),
+    path('f_denuncia/',views.f_denuncia, name='f_denuncia'),
+    path('f_comision/',views.f_comision, name='f_comision'),
+    path('f_usuario/',views.f_usuario, name='f_usuario'),
+    path('m_denuncia/',views.m_denuncia, name='m_denuncia'),
+    path('m_comision/',views.m_comision, name='m_comision'),
+    path('m_usuario/',views.m_usuario, name='m_usuario'),
+    path('m_expediente/',views.m_expediente, name='m_expediente'),
+    path('e_comision/',views.e_comision,name='e_comision'),
+    path('e_usuario',views.e_usuario,name='e_usuario')
 ]

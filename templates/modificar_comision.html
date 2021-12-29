@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'css/bulma.css'%}">
+    <link rel="stylesheet" href="{% static 'css/all.css'%}">
+    
+    <script defer src="{% static 'js/fa_all.js'%}"></script>
+    <script defer src="{% static 'js/alpine.js'%}"></script>
+    <script defer src="{% static 'js/iodine.min.js'%}"></script>
+    <script defer src="{% static 'js/validations.js'%}"></script>
+
+    <title>GDU - Modificar comision</title>
+</head>
+
+<body>
+    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
+    <div class="controller" x-data="{ on_mobile: false , toggled_burger : false}">
+      <section x-on:resize.window="on_mobile = (window.innerWidth < 1024) ? true : false" x-bind:class="on_mobile ? 'hero is-primary' : 'hero is-primary is-fullheight'" class="">  
+        <div class="hero-head">
+            <nav class="navbar">
+              <div class="container">
+                <div class="navbar-brand">
+                  <a class="navbar-item">
+                    <figure class="image">
+                      <a>
+                        <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
+                      </a>
+                    </figure>
+                  </a>
+                  <span class="navbar-burger burger" id="burger" @click="toggled_burger = !toggled_burger"  data-target="navbarMenuHeroA">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <div id="navbarMenuHeroA" x-bind:class="toggled_burger ? 'navbar-menu is-active' : 'navbar-menu' ">
+                    <div class="navbar-end">
+                      <span class="navbar-item is-active">
+                        <a href="{% url 'denuncias'%}" class="button is-primary is-inverted" href="#">
+                          <span class="icon">
+                            <i class="fas fa-scroll"></i>
+                          </span>
+                          <span>Denuncias</span>
+                        </a>
+                      </span>
+                      <span class="navbar-item">
+                        <a href="{% url 'comisiones'%}" class="button is-primary is-inverted" href="#">
+                          <span class="icon">
+                            <i class="fas fa-users"></i>
+                          </span>
+                          <span>Comisiones</span>
+                        </a>
+                      </span>
+                      <span class="navbar-item">
+                        <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
+                          <span class="icon">
+                            <i class="fas fa-user-friends"></i>
+                          </span>
+                          <span>Usuarios</span>
+                        </a>
+                      </span>
+                      <span class="navbar-item">
+                        <a href="{% url 'autorization'%}" class="button is-primary is-inverted">
+                          <span class="icon">
+                            <i class="fa fa-arrow-circle-left"></i>
+                          </span>
+                          <span>Salir</span>
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </nav>
+          </div>
+       
+        
+          <!-- Hero content: will be in the middle -->
+          <div class="hero-body">
+            <div class="container">
+              <div class="container is-centered">
+  
+                <!-- Tabla -->
+                <div class="box" id="form">
+
+                    
+                      <div class="container has-text-centered">
+                        <h2 class="subtitle is-5 hero-text">Comision - ID</h2>
+                      </div>
+
+                      <div class="field">
+                        <label class="label">Presidente</label>
+                        <div class="control has-icons-left">
+                          <input id="user_p" data-rules='["required"]' class="input" type="text" placeholder="Usuario del presidente de la comision">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-smile"></i>
+                          </span>
+                          <p id="user_p_error" class="error_hidden help is-danger">Debe rellenar este campo.</p>
+                        </div>
+                      </div>
+                      
+                      <div class="field">
+                        <label class="label">Secretario</label>
+                        <div class="control has-icons-left has-icons-right">
+                          <input id="user_s" data-rules='["required"]' class="input" type="text" placeholder="Usuario del secretario de la comision">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                          </span>
+                          <p id="user_s_error" class="error_hidden help is-danger">Debe rellenar este campo.</p>
+                        </div>
+                      </div>
+                      
+                      <div class="field">
+                        <label class="label">Profesor gu&iacute;a</label>
+                        <div class="control has-icons-left has-icons-right">
+                          <input id="user_g" data-rules='["required"]' class="input" type="text" placeholder="Profesor gu&iacute;a al frente de la denuncia">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                          </span>
+                          <p id="user_g_error" class="error_hidden help is-danger">Debe rellenar este campo.</p>
+                        </div>
+                      </div>
+                      
+                      <div class="field">
+                        <label class="label">Vocal FEU</label>
+                        <div class="control has-icons-left has-icons-right">
+                          <input id="user_v" data-rules='["required"]' class="input" type="text" placeholder="Hora en la que ocurre el incidente">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                          </span>
+                          <p id="user_v_error" class="error_hidden help is-danger">Debe rellenar este campo.</p>
+                        </div>
+                      </div>
+                      
+                     <!-- Esta busqueda ocurrira en el frontend -->
+                      <div class="field has-addons">
+                        <div class="control has-icons-left">
+                          <input id="denuncia" data-rules='["required"]' class="input" type="text" placeholder="Denuncia asignada">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-scroll"></i>
+                          </span>
+                          <p id="denuncia_error" class="error_hidden help is-danger">Debe rellenar este campo.</p>
+                        </div>
+                        <div class="control">
+                          <a class="button is-info">
+                            Buscar Denuncia.
+                          </a>
+                        </div>
+                      </div>
+                      
+
+                      <div class="field is-grouped">
+                        <div class="control">
+                          <button onclick="validate(event)" class="button is-link">Enviar</button>
+                        </div>
+                        <div class="control">
+                          <button class="button is-link is-light">Cancelar</button>
+                        </div>
+                      </div>
+                </div> 
+  
+  
+              </div>
+            </div>
+          </div>
+        
+          <!-- Hero footer: will stick at the bottom -->
+          <div class="hero-foot">
+            <nav class="tabs">
+              <div class="container"></div>
+            </nav>
+          </div>
+          
+      </section>
+    </div>
+</body>
+</html>
