@@ -125,18 +125,28 @@
                       </thead>
                   
                       <tbody>
+                        {% comment %} Falta agregar las pk a los modificar-eliminar {% endcomment %}
+                        
+                        {% if hay_comisiones %}
+                          <div class="columns is-centered">
+                            <column class="is-narrow">
+                              <p class="hero-text mt-5">Por el momento no hay comisiones para mostrar.</p>
+                            </column>
+                          </div>
+                        {% endif %}
+                        {% for comision in comisiones %}
                         <tr>
-                          <th>1</th>
-                          <td><a href="#">Daniel Tamayo Arias</a></td>
-                          <td>darias</td>
-                          <td>deTa25</td>
-                          <td>darias</td>
-                          <td>Adiestrado</td>
-                          <td>Jefe de Dpto.</td>
-                          <td>15</td>
+                          <th><a href="#">{{comision.id}}</a></th>
+                          <td>{{comision.presidente}}</td>
+                          <td>{{comision.secretario}}</td>
+                          <td>{{comision.p_guia}}</td>
+                          <td>{{comision.v_feu}}</td>
+                          <td>{{comision.otros}}</td>
+                          <td>Denuncias</td>
+                          <td>{{comision.dias_utiles}}</td>
                           <td>
                             <i class="icon">
-                              <a href="{% url 'm_comision'%}">
+                              <a href="{% url 'm_comision' %}">
                                   <span  class="fas fa-pencil-alt"></span>
                                 </a>
                             </i>
@@ -147,94 +157,8 @@
                             </i>
                         </td>
                         </tr>
-                        <tr>
-                          <th>2</th>
-                          <td><a href="#">Liuba Rosa Medin</a></td>
-                          <td>lrmedin</td>
-                          <td>LRosa92</td>
-                          <td>lrmedin</td>
-                          <td>Titular</td>
-                          <td>Profesor</td>
-                          <td>12</td>
-                          <td>
-                            <i class="icon">
-                                <a href="{% url 'm_comision'%}">
-                                    <span  class="fas fa-pencil-alt"></span>
-                                  </a>
-                              </i>
-                              <i class="icon">
-                                  <a href="{% url 'e_comision'%}">
-                                      <span  class="fas fa-trash-alt"></span>
-                                  </a>
-                            </i>
-                        </td>
-                        </tr>
-                        <tr>
-                          <th>3</th>
-                          <td><a href="#">Meidis Sanchez Deiran</a></td>
-                          <td>msanchezd</td>
-                          <td>activ**</td>
-                          <td>msanchezd</td>
-                          <td>Titular</td>
-                          <td>Jefe de Asig.</td>
-                          <td>3</td>
-                          <td>
-                            <i class="icon">
-                                <a href="{% url 'm_comision'%}">
-                                    <span  class="fas fa-pencil-alt"></span>
-                                  </a>
-                              </i>
-                              <i class="icon">
-                                  <a href="{% url 'e_comision'%}">
-                                      <span  class="fas fa-trash-alt"></span>
-                                  </a>
-                            </i>
-                        </td>
-                        </tr>
-                        <tr class="is-selected">
-                          <th>4</th>
-                          <td><a href="#">Alexis Carras Fuentes</a></td>
-                          <td>acarras</td>
-                          <td>carra21*</td>
-                          <td>acarras</td>
-                          <td>Titular</td>
-                          <td>Profesor</td>
-                          <td>24</td>
-                          <td>
-                            <i class="icon">
-                                <a href="{% url 'm_comision'%}">
-                                    <span  class="fas fa-pencil-alt"></span>
-                                  </a>
-                              </i>
-                              <i class="icon">
-                                  <a href="{% url 'e_comision'%}">
-                                      <span  class="fas fa-trash-alt"></span>
-                                  </a>
-                            </i>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>5</th>
-                          <td><a href="#">Joel Izaguirre Moreno</a></td>
-                          <td>jimoreno</td>
-                          <td>star_wars*+1</td>
-                          <td>jimoreno</td>
-                          <td>Instructor</td>
-                          <td>Jefe de Dpto.</td>
-                          <td>1</td>
-                          <td>
-                            <i class="icon">
-                                <a href="{% url 'm_comision'%}">
-                                    <span  class="fas fa-pencil-alt"></span>
-                                  </a>
-                              </i>
-                              <i class="icon">
-                                  <a href="{% url 'e_comision'%}">
-                                      <span  class="fas fa-trash-alt"></span>
-                                  </a>
-                            </i>
-                        </td>
-                        </tr>
+                        {% endfor %}
+                        
                         <tr>
                           <th><a href="{% url 'f_comision'%}"><span class="fas fa-plus-square"></span></a></th>
                           <td>-</td>  
@@ -259,16 +183,7 @@
           <!-- Hero footer: will stick at the bottom -->
           <div class="hero-foot">
             <nav class="tabs">
-              <div class="container">
-                <ul>
-                    <div class="navbar-item">
-                      <a href="modificar_expediente.html" class="button is-primary is-inverted">
-                        <span class="green-text">Crear expediente disciplinario</span>
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+              
             </nav>
           </div>
         </section>

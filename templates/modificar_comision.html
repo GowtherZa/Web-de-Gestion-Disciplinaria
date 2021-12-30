@@ -85,7 +85,7 @@
               <div class="container is-centered">
   
                 <!-- Tabla -->
-                <div class="box" id="form">
+                {% comment %} <div class="box" id="form">
 
                     
                       <div class="container has-text-centered">
@@ -161,8 +161,42 @@
                           <button class="button is-link is-light">Cancelar</button>
                         </div>
                       </div>
-                </div> 
-  
+                </div>  {% endcomment %}
+                {% load widget_tweaks %}
+                <form action="" method="POST">
+                  {% csrf_token %}
+      
+                  <div class="box" id="form">
+
+                    <div class="container has-text-centered">
+                      <h2 class="subtitle is-5 hero-text">Comision - ID</h2>
+                    </div>
+
+                    
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+        
+                    {% for field in form %}
+                        <div class="field">
+                          <label class="label">{{field.label_tag}} </label>
+                          <div class="control has-icons-left">
+                            {% render_field field class="input"  %}
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-smile"></i>
+                            </span>
+                           
+                          </div>
+                        </div>    
+               
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                            {% endfor %}
+                  </div>
+                    
+                    <button class="btn btn-success" type="submit" value="Submit">Add</button>
+              </form>
   
               </div>
             </div>
@@ -171,7 +205,17 @@
           <!-- Hero footer: will stick at the bottom -->
           <div class="hero-foot">
             <nav class="tabs">
-              <div class="container"></div>
+              <div class="container">
+                <ul>
+                    <div class="navbar-item">
+                      {% comment %} Agregar aqui el pk de la comision {% endcomment %}
+                      <a href="modificar_expediente.html" class="button is-primary is-inverted">
+                        <span class="green-text">Crear expediente disciplinario</span>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </nav>
           </div>
           

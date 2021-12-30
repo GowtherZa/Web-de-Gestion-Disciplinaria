@@ -114,74 +114,54 @@
                     <thead>
                       <tr>
                         <th><abbr title="Posicion"></abbr></th>
-                        <th><abbr title="Descripcion">Desc.</abbr></th>
+                        {% comment %} <th><abbr title="Descripcion">Desc.</abbr></th> {% endcomment %}
                         <th><abbr title="Nombre del denunciante">Nombre</abbr></th>
+                        <th><abbr title="Apellidos del denunciante">Apellidos</abbr></th>
                         <th><abbr title="Usuario del denunciante">Usuario denunciante</abbr></th>
                         <th><abbr title="Usuario del denunciado">Usuario denunciado</abbr></th>
                         <th><abbr title="Area de la denuncia">Area</abbr></th>
                         <th><abbr title="Fecha de la denuncia">Fecha</abbr></th>
                         <th><abbr title="Hora de la denuncia">Hora</abbr></th>
-                        <th></th>
+                        <th><abbr title="Estado de la denuncia">Estado</abbr></th>
+                        <th><abbr title="Define si se ha asignado la denuncia a alguna comision">Asignada</abbr></th>
                       </tr>
                     </thead>
                 
                     <tbody>
-                      <tr>
-                        <th>1</th>
-                        <td><a href="{% url 'm_denuncia' %}" title="" onclick="javascript:alert('Detalles de Indisciplina')">Indisciplina</a> 
+                      {% if hay_denuncias %}
+                          <div class="columns is-centered">
+                            <column class="is-narrow">
+                              <p class="hero-text mt-5">Por el momento no hay denuncias para mostrar.</p>
+                            </column>
+                          </div>
+                        {% endif %}
+                      {% for denuncia in denuncias %}
+                        <tr>
+                          <th><a href="#">{{denuncia.id}}</a></th>
+                          {% comment %} <td>{{denuncia.texto}}</td> {% endcomment %}
+                          <td>{{denuncia.nombre}}</td>
+                          <td>{{denuncia.apellidos}}</td>
+                          <td>{{denuncia.usuario_d}}</td>
+                          <td>Usuario</td>
+                          <td>{{denuncia.area}}</td>
+                          <td>{{denuncia.fecha}}</td>
+                          <td>{{denuncia.hora}}</td>
+                          <td>{{denuncia.estado}}</td>
+                          <td>{{denuncia.asignada}}</td>
+                          <td>
+                            <i class="icon">
+                              <a href="{% url 'm_comision' %}">
+                                  <span  class="fas fa-pencil-alt"></span>
+                                </a>
+                            </i>
+                            <i class="icon">
+                                <a href="{% url 'e_comision'%}">
+                                    <span  class="fas fa-trash-alt"></span>
+                                </a>
+                            </i>
                         </td>
-                        <td>Rafael</td>
-                        <td>@Erick</td>
-                        <td>@Merksi</td>
-                        <td>Comedor 3</td>
-                        <td>11/06/21</td>
-                        <td>10:00</td>   
-                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>                        
-                      </tr>
-                      <tr>
-                        <th>2</th>
-                        <td><a href="#" title-"" onclick="javascript:alert('Detalles de fraude')">Fraude</a></td>
-                        <td>Martin</td>
-                        <td>@Rodrigo</td>
-                        <td>@Chen</td>
-                        <td>Laboratorio 206</td>
-                        <td>01/12/20</td>
-                        <td>7:00</td>
-                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
-                      </tr>
-                      <tr>
-                        <th>3</th>
-                        <td><a href="#" title="" onclick="javascript:alert('Detalles de Falta de respeto')">Falta de respeto</a></td>
-                        <td>Liuba</td>
-                        <td>@Diomedes</td>
-                        <td>@Calvi</td>
-                        <td>Pasillo</td>
-                        <td>07/02/21</td>
-                        <td>6:00</td>
-                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
-                      </tr>
-                      <tr class="is-selected">
-                        <th>4</th>
-                        <td><a href="#" title="" onclick="javascript:alert('Detalles de fraude')">Fraude</a></td>
-                        <td>Yordano,Raul</td>
-                        <td>@Lisandra</td>
-                        <td>@Pablo</td>
-                        <td>Aula</td>
-                        <td>22/07/21</td>
-                        <td>10:00</td>
-                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
-                      </tr>
-                      <tr>
-                        <th>5</th>
-                        <td><a href="#" title="" onclick="javascript:alert('Detalles de Ausencia Reiterada')">Ausencia reiterada</a></td>
-                        <td>Mirella</td>
-                        <td>@Amanda</td>
-                        <td>@Formell</td>
-                        <td>Areas verdes</td>
-                        <td>18/07/21</td>
-                        <td>10:00</td>
-                        <td><a href="{% url 'm_denuncia' %}"><span  class="fas fa-pencil-alt"></span></a></td>
-                      </tr>
+                        </tr>
+                        {% endfor %}
                       <tr>
                         <th><a href="{% url 'f_denuncia' %}"><span class="fas fa-plus-square"></span></a></th>
                         <td>-</td>  
