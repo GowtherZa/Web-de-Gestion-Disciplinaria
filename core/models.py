@@ -1,24 +1,44 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
 from django.utils import timezone
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
-# class usuario(User):
-#     user = models.OneToOneField('settings.AUTH_USER_MODEL',on_delete=models.CASCADE)
-#     telefono = models.CharField('Télefono', max_length=15)
-#     avatar = models.ImageField('avatar para tu perfil', upload_to='avatars/', blank=True, null=True)
-#     fondo = models.ImageField('Elige tu fondo de perfil', upload_to='fondos/', blank=True, null=True)
 
-# class usuario(models.Model): # Debe ser extendido al usuario de django/admin
-#     usuario = models.CharField(max_length=10)
-#     nombre = models.CharField(max_length=20)
-#     apellidos = models.CharField(max_length=50)
-#     correo = models.EmailField(max_length=50) # Valorar cambiar a charfield
-#     password = models.CharField(max_length=20)
-#     cargo = models.CharField(max_length=20)
-#     rol = models.CharField(max_length=20)
-#     permisos = models.CharField(max_length=1)
-#     # comisiones 
-#     # denuncias
+cat_docentes = (
+    ("1","-----"),
+    ("2","Titular"),
+    ("3","Adiestrado"),
+    ("4","Instructor"),
+)
+
+cargos = (
+    ("1","-----"),
+    ("2","Profesor"),
+    ("3","J. Apto"),
+    ("4","J. Asig"),
+)
+
+roles =(
+ ("1","Usuario"),
+ ("2","Admin")
+)
+class perfil(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,null=True)
+    nombre = models.CharField(max_length=20)
+    apellidos = models.CharField(max_length=50)
+    correo = models.EmailField(max_length=50) # Valorar cambiar a charfield
+    cargo = models.CharField(max_length=8,choices=cargos,default="1")
+    rol = models.CharField(max_length=7,choices=roles,default="1")
+    cat_d = models.CharField(max_length=10,choices=cat_docentes,default="1")
+    # comisiones 
+    # denuncias
+
+    @property 
+    def es_admin(self):
+        return self.rol == "Admin"
+
+    def __str__(self):
+        return str(self.user)    
 
 class denuncia(models.Model):
     texto = models.CharField(max_length=300)
@@ -28,9 +48,9 @@ class denuncia(models.Model):
     hora = models.CharField(max_length=5)
     area = models.CharField(max_length=150)
     usuario_d = models.CharField(max_length=10)
-    estado = models.CharField(max_length=9,default="Pendiente")
+    estado = models.BooleanField(max_length=9,default="Pendiente")
     asignada = models.CharField(max_length=2,default="No")
-    # usuario 
+    usuario = models.ForeignKey(User,on_delete=models.PROTECT,related_name='denuncias') 
     # comision 
     # expediente
 

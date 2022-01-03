@@ -38,6 +38,14 @@
               </div>
               <div id="navbarMenuHeroA" x-bind:class="toggled_burger ? 'navbar-menu is-active' : 'navbar-menu' ">
                 <div class="navbar-end">
+                  <span class="navbar-item">
+                    <a href="#" class="button is-primary is-inverted">
+                      <span class="icon">
+                        <i class="fa fa-user"></i>
+                      </span>
+                      <span>{{user.username}} - {{user.perfil.nombre}}</span>
+                    </a>
+                  </span>
                   <span class="navbar-item is-active">
                     <a href="{% url 'denuncias'%}" class="button is-primary is-inverted" href="#">
                       <span class="icon">
@@ -63,7 +71,7 @@
                     </a>
                   </span>
                   <span class="navbar-item">
-                    <a href="{% url 'autorization'%}" class="button is-primary is-inverted">
+                    <a href="{% url 'logout'%}" class="button is-primary is-inverted">
                       <span class="icon">
                         <i class="fa fa-arrow-circle-left"></i>
                       </span>
@@ -78,109 +86,119 @@
       
         <!-- Hero content: will be in the middle -->
         <div class="hero-body">
-          <div class="container">
-            <div class="container is-centered">
+          {% if user.is_authenticated%}
+            <div class="container">
+              <div class="container is-centered">
 
-               <!-- Buscador -->
-               <div class="columns">
-                <div class="column is-offset-8">
-                  <div class="field has-addons">
-                    <div class="control has-icons-left">
-                      <input class="input" type="text" placeholder="Denuncia">
-                      <span class="icon is-small is-left">
-                        <i class="fas fa-scroll"></i>
-                      </span>
-                    </div>
-                    <div class="control">
-                      <a class="button is-info">
-                        Buscar Denuncia.
-                      </a>
+                <!-- Buscador -->
+                <div class="columns">
+                  <div class="column is-offset-8">
+                    <div class="field has-addons">
+                      <div class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Denuncia">
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-scroll"></i>
+                        </span>
+                      </div>
+                      <div class="control">
+                        <a class="button is-info">
+                          Buscar Denuncia.
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Tabla -->
-              <div class="box">
+                <!-- Tabla -->
+                <div class="box">
 
-                <div class="columns is-centered">
-                  <div class="column is-narrow">
-                    <h1 class="title is-5 hero-text">Listado de denuncias</h1>
+                  <div class="columns is-centered">
+                    <div class="column is-narrow">
+                      <h1 class="title is-5 hero-text">Listado de denuncias</h1>
+                    </div>
                   </div>
-                </div>
 
-                <div class="table-container">
-                  <table class="table is-hoverable is-fullwidth">
-                    <thead>
-                      <tr>
-                        <th><abbr title="Posicion"></abbr></th>
-                        {% comment %} <th><abbr title="Descripcion">Desc.</abbr></th> {% endcomment %}
-                        <th><abbr title="Nombre del denunciante">Nombre</abbr></th>
-                        <th><abbr title="Apellidos del denunciante">Apellidos</abbr></th>
-                        <th><abbr title="Usuario del denunciante">Usuario denunciante</abbr></th>
-                        <th><abbr title="Usuario del denunciado">Usuario denunciado</abbr></th>
-                        <th><abbr title="Area de la denuncia">Area</abbr></th>
-                        <th><abbr title="Fecha de la denuncia">Fecha</abbr></th>
-                        <th><abbr title="Hora de la denuncia">Hora</abbr></th>
-                        <th><abbr title="Estado de la denuncia">Estado</abbr></th>
-                        <th><abbr title="Define si se ha asignado la denuncia a alguna comision">Asignada</abbr></th>
-                      </tr>
-                    </thead>
-                
-                    <tbody>
-                      {% if hay_denuncias %}
-                          <div class="columns is-centered">
-                            <column class="is-narrow">
-                              <p class="hero-text mt-5">Por el momento no hay denuncias para mostrar.</p>
-                            </column>
-                          </div>
-                        {% endif %}
-                      {% for denuncia in denuncias %}
+                  <div class="table-container">
+                    <table class="table is-hoverable is-fullwidth">
+                      <thead>
                         <tr>
-                          <th><a href="#">{{denuncia.id}}</a></th>
-                          {% comment %} <td>{{denuncia.texto}}</td> {% endcomment %}
-                          <td>{{denuncia.nombre}}</td>
-                          <td>{{denuncia.apellidos}}</td>
-                          <td>{{denuncia.usuario_d}}</td>
-                          <td>Usuario</td>
-                          <td>{{denuncia.area}}</td>
-                          <td>{{denuncia.fecha}}</td>
-                          <td>{{denuncia.hora}}</td>
-                          <td>{{denuncia.estado}}</td>
-                          <td>{{denuncia.asignada}}</td>
-                          <td>
-                            <i class="icon">
-                              <a href="{% url 'm_comision' %}">
-                                  <span  class="fas fa-pencil-alt"></span>
-                                </a>
-                            </i>
-                            <i class="icon">
-                                <a href="{% url 'e_comision'%}">
-                                    <span  class="fas fa-trash-alt"></span>
-                                </a>
-                            </i>
-                        </td>
+                          <th><abbr title="Posicion"></abbr></th>
+                          {% comment %} <th><abbr title="Descripcion">Desc.</abbr></th> {% endcomment %}
+                          <th><abbr title="Nombre del denunciante">Nombre</abbr></th>
+                          <th><abbr title="Apellidos del denunciante">Apellidos</abbr></th>
+                          <th><abbr title="Usuario del denunciante">Usuario denunciante</abbr></th>
+                          <th><abbr title="Usuario del denunciado">Usuario denunciado</abbr></th>
+                          <th><abbr title="Area de la denuncia">Area</abbr></th>
+                          <th><abbr title="Fecha de la denuncia">Fecha</abbr></th>
+                          <th><abbr title="Hora de la denuncia">Hora</abbr></th>
+                          <th><abbr title="Estado de la denuncia">Estado</abbr></th>
+                          <th><abbr title="Define si se ha asignado la denuncia a alguna comision">Asignada</abbr></th>
                         </tr>
-                        {% endfor %}
-                      <tr>
-                        <th><a href="{% url 'f_denuncia' %}"><span class="fas fa-plus-square"></span></a></th>
-                        <td>-</td>  
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div> 
+                      </thead>
+                  
+                      <tbody>
+                        {% if hay_denuncias %}
+                            <div class="columns is-centered">
+                              <column class="is-narrow">
+                                <p class="hero-text mt-5">Por el momento no hay denuncias para mostrar.</p>
+                              </column>
+                            </div>
+                          {% endif %}
+                        {% for denuncia in denuncias %}
+                          <tr>
+                            <th><a href="#">{{denuncia.id}}</a></th>
+                            {% comment %} <td>{{denuncia.texto}}</td> {% endcomment %}
+                            <td>{{denuncia.nombre}}</td>
+                            <td>{{denuncia.apellidos}}</td>
+                            <td>{{denuncia.usuario_d}}</td>
+                            <td>{{denuncia.usuario.user}}</td>
+                            <td>{{denuncia.area}}</td>
+                            <td>{{denuncia.fecha}}</td>
+                            <td>{{denuncia.hora}}</td>
+                            <td>{{denuncia.estado}}</td>
+                            <td>{{denuncia.asignada}}</td>
+                            <td>
+                              <i class="icon">
+                                <a href="{% url 'm_comision' %}">
+                                    <span  class="fas fa-pencil-alt"></span>
+                                  </a>
+                              </i>
+                              <i class="icon">
+                                  <a href="{% url 'e_comision'%}">
+                                      <span  class="fas fa-trash-alt"></span>
+                                  </a>
+                              </i>
+                          </td>
+                          </tr>
+                          {% endfor %}
+                        <tr>
+                          <th><a href="{% url 'f_denuncia' %}"><span class="fas fa-plus-square"></span></a></th>
+                          <td>-</td>  
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div> 
 
 
+              </div>
+            </div>
+          {% else %}
+          <div class="container">
+            <div class="container is-centered is-narrow">
+              <div class="box">
+                <h1 class="hero-text is-text-centered">Lo sentimos,debe <a href={% url 'login' %} class='is-linkable'>autenticarse</a> primeramente</h1>
+              </div>
             </div>
           </div>
+          {% endif %}
         </div>
       
         <!-- Hero footer: will stick at the bottom -->

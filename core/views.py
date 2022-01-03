@@ -3,15 +3,23 @@ from django.shortcuts import render
 from .forms import UserRegisterForm
 from django.contrib import messages 
 from .models import comision,denuncia,expediente
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
 
 def autorizacion(request): 
     return render(request,'autorizacion.html')
+
+class UserRegisterView(generic.CreateView):
+    form_class = UserRegisterForm
+    template_name = 'modificar_usuario.html'
+    success_url = reverse_lazy('usuarios')
 
 def denuncias(request):
     denuncias = denuncia.objects.all
     cant = denuncia.objects.count() == 0
     context = {'denuncias':denuncias,'hay_denuncias':cant}
-    return render(request,'denuncias.html',context)
+    return render(request,'denuncias_extended.html',context)
 
 def usuarios(request):
     return render(request,'usuarios.html')
@@ -31,8 +39,10 @@ def index(request):
 def f_denuncia(request):
     return render(request,'modificar_denuncia.html')
 
-def f_usuario(request):
-    return render(request,'modificar_usuario.html')
+# def f_usuario(request):
+#     return render(request,'modificar_usuario.html')
+
+
 
 def f_comision(request):
     return render(request,'modificar_comision.html')

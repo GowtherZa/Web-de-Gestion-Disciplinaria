@@ -15,3 +15,6 @@ html{
     display: none !important;
 }
 
+.is-linkable{
+    color:blue !important;
+}
