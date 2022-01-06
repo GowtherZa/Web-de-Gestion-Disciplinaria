@@ -89,10 +89,10 @@
             {% comment %} Link para postear usuarios {% endcomment %}
             <div class="field is-grouped">
             <div class="control">
-                <button onclick="validate(event)" action="POST" type="submit" class="button is-link">Enviar</button>
+                <button onclick="validate(event)" action="POST" type="submit" class="button is-warning">Modificar</button>
             </div>
             <div class="control">
-                <button class="button is-link is-light">Cancelar</button>
+                <button class="button is-link is-light" href={% url 'usuarios' %}>Cancelar</button>
             </div>
             </div>
         </form> 

@@ -33,39 +33,31 @@ class perfil(models.Model):
     rol = models.CharField(max_length=15,choices=roles,default=1)
     cat_d = models.CharField(max_length=15,choices=cat_docentes,default=1)
     un_pass = models.CharField(max_length=30,default="") # Unencrypted pass
-    # comisiones 
-    # denuncias
+
+    class Meta:
+        verbose_name_plural = 'perfiles'
 
     @property 
     def es_admin(self):
         return self.rol == "Admin"
 
-
     def __str__(self):
         return str(self.user)    
-
-    # def __init__(self,nombre,apellidos,correo,cargo,rol,cat_d,un_pass):
-    #     self.nombre = nombre 
-    #     self.apellidos = apellidos 
-    #     self.correo = correo
-    #     self.cargo = cargo
-    #     self.rol = rol
-    #     self.cat_d = cat_d
-    #     self.un_pass = un_pass
 
 class denuncia(models.Model):
     texto = models.CharField(max_length=300)
     nombre = models.CharField(max_length=20)
     apellidos = models.CharField(max_length=50)
-    fecha = models.CharField(max_length=8)  # Valorar cambiar a date
-    hora = models.CharField(max_length=5)
-    area = models.CharField(max_length=150)
+    fecha = models.DateField()  # Valorar cambiar a date
+    hora = models.TimeField()
+    area = models.CharField(max_length=50)
     usuario_d = models.CharField(max_length=10)
-    estado = models.BooleanField(max_length=9,default="Pendiente")
+    estado = models.CharField(max_length=9,default="Pendiente")
     asignada = models.CharField(max_length=2,default="No")
     usuario = models.ForeignKey(User,on_delete=models.PROTECT,related_name='denuncias') 
+    fecha_asignada = models.DateField(null="True")
     # comision 
-    # expediente
+    # expediente 
 
     @property
     def es_valida(self):
@@ -76,6 +68,9 @@ class denuncia(models.Model):
         # validar asignada = (len(comision))>0
         return self.asignada
 
+    def __str__(self):
+        return str(f'{self.usuario.username} -> {self.usuario_d}')   
+
 class expediente(models.Model):
 
     texto = models.CharField(max_length=300)
@@ -83,10 +78,10 @@ class expediente(models.Model):
     apellidos = models.CharField(max_length=50)
     correo = models.EmailField(max_length=50) # Valorar cambiar a charfield
     anno_ac = models.CharField(max_length=9)
-    fecha = models.CharField(max_length=8)  # Valorar cambiar a date
+    fecha = models.DateField()  # Valorar cambiar a date
     grupo = models.CharField(max_length=4) 
+    denuncia = models.OneToOneField(denuncia,on_delete=models.CASCADE,null=True)
     # usuario
-    # denuncia
 
 class comision(models.Model):
     presidente = models.CharField(max_length=10)
@@ -97,4 +92,6 @@ class comision(models.Model):
     # fecha_creacion = models.DateTimeField(default=timezone.now)
     dias_utiles = models.IntegerField(default=30)
     # denuncias
-    
+
+    class Meta:
+        verbose_name_plural = 'comisiones'

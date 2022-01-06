@@ -10,7 +10,7 @@
 
                         
         <div class="container has-text-centered">
-        <h2 class="subtitle is-5 hero-text">Denuncia - {{id}}</h2>
+        <h2 class="subtitle is-5 hero-text">Nueva Denuncia</h2>
         </div>
 
         {% csrf_token %}
@@ -55,11 +55,12 @@
         
         <div class="field is-grouped">
         <div class="control">
-            <button class="button is-warning" method="POST" type="submit">Modificar</button>
+            <button onclick="validate(event)" class="button is-link" method="POST" type="submit">Enviar</button>
         </div>
         <div class="control">
             <button class="button is-link is-light">Cancelar</button>
         </div>
         </div>
     </form> 
+
 {% endblock content %}

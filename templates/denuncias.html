@@ -50,6 +50,7 @@
             <th><abbr title="Hora de la denuncia">Hora</abbr></th>
             <th><abbr title="Estado de la denuncia">Estado</abbr></th>
             <th><abbr title="Define si se ha asignado la denuncia a alguna comision">Asignada</abbr></th>
+            <th><abbr title="Listado de ids de las comisiones asignadas">Comisiones</abbr></th>
           </tr>
         </thead>
     
@@ -75,8 +76,15 @@
               <td>{{denuncia.estado}}</td>
               <td>{{denuncia.asignada}}</td>
               <td>
+                {% if denuncia.asignada == "Si" %}
+                  Comisiones
+                {% else %}
+                   -----
+                {% endif %}
+              </td>
+              <td>
                 <i class="icon">
-                  <a href="{% url 'm_denuncia' %}">
+                  <a href="{% url 'm_denuncia' denuncia.id %}">
                       <span  class="fas fa-pencil-alt"></span>
                     </a>
                 </i>

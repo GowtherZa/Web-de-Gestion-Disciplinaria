@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render, get_object_or_404
 # from django.contrib.auth.models import User
-from .forms import UserRegisterForm, UserProfileRegisterForm
+from .forms import *
 from django.contrib import messages 
 from .models import comision,denuncia,expediente, perfil
 from django.urls import reverse_lazy
@@ -36,7 +36,24 @@ def index(request):
 #  Formularios:
 @login_required
 def f_denuncia(request):
-    return render(request,'modificar_denuncia.html')
+
+    if request.method == 'POST':
+        print("________VALID_________")
+        form = DenunciaForm(request.POST)
+        
+        if form.is_valid() :
+            # Guardamos el usuario
+            form.save() 
+
+            messages.success(request, f'Denuncia creada')
+            return redirect('denuncias')
+    else:
+        
+        form = DenunciaForm()   
+        
+    context = {'form':form}
+
+    return render(request,'crear_denuncia.html',context)
 
 @login_required
 def f_usuario(request):
@@ -89,8 +106,37 @@ def f_comision(request):
 
 #  Modificables: 
 @login_required
-def m_denuncia(request):
-    return render(request,'modificar_denuncia.html')
+def m_denuncia(request,id):
+
+    denuncia_i = get_object_or_404(denuncia,id=id)
+    
+    form = DenunciaForm(instance=denuncia_i)
+
+    context = {'id':id,'form':form}
+
+    if request.method == 'POST':
+    
+        form = DenunciaForm(request.POST)
+
+        if form.is_valid() :
+            
+            # Actualizamos la denuncia
+            nombre = form.cleaned_data['nombre']
+            apellidos = form.cleaned_data['apellidos']
+            fecha = form.cleaned_data['fecha'] # Debe modificarse para que se retorne en el formato correcto
+            hora = form.cleaned_data['hora'] # Debe modificarse para que se retorne en el formato correcto
+            area = form.cleaned_data['area']
+            usuario_d = form.cleaned_data['usuario_d']
+            usuario = form.cleaned_data['usuario']
+            texto = form.cleaned_data['texto']
+
+            denuncia.objects.filter(id=id).update(nombre=nombre,apellidos=apellidos,fecha=fecha,hora=hora,area=area,usuario=usuario,usuario_d=usuario_d,texto=texto)
+
+            messages.success(request, f'Denuncia modificada')
+
+            return redirect('denuncias')
+
+    return render(request,'modificar_denuncia.html',context)
 
 @login_required
 def m_usuario(request,id):
