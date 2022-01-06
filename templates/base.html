@@ -65,14 +65,16 @@
                       <span>Comisiones</span>
                     </a>
                   </span>
-                  <span class="navbar-item">
-                    <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
-                      <span class="icon">
-                        <i class="fas fa-user-friends"></i>
-                      </span>
-                      <span>Usuarios</span>
-                    </a>
-                  </span>
+                  {% if user.perfil.es_admin %} 
+                    <span class="navbar-item">
+                      <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
+                        <span class="icon">
+                          <i class="fas fa-user-friends"></i>
+                        </span>
+                        <span>Usuarios</span>
+                      </a>
+                    </span>
+                  {% endif %}
                   <span class="navbar-item">
                     <a href="{% url 'logout'%}" class="button is-primary is-inverted">
                       <span class="icon">

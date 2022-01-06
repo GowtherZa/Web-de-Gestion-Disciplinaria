@@ -1,186 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    {% load static%}
-    <link rel="stylesheet" href="{% static 'css/bulma.css'%}">
-    <link rel="stylesheet" href="{% static 'css/all.css'%}">
-    
-    <script defer src="{% static 'js/fa_all.js'%}"></script>
-    <script defer src="{% static 'js/alpine.js'%}"></script>
+{% extends 'base.html' %}
 
+{% block title %}
     <title>GDU - Eliminar usuario</title>
-</head>
+{% endblock title %}
 
-<body>
-    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
-    <div class="controller" x-data="{ on_mobile: false , toggled_burger : false}">
-      <section x-on:resize.window="on_mobile = (window.innerWidth < 1024) ? true : false" x-bind:class="on_mobile ? 'hero is-primary' : 'hero is-primary is-fullheight'" class="">  
-        <div class="hero-head">
-            <nav class="navbar">
-              <div class="container">
-                <div class="navbar-brand">
-                  <a class="navbar-item">
-                    <figure class="image">
-                      <a>
-                        <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
-                      </a>
-                    </figure>
-                  </a>
-                  <span class="navbar-burger burger" id="burger" @click="toggled_burger = !toggled_burger"  data-target="navbarMenuHeroA">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </span>
-                </div>
-                <div id="navbarMenuHeroA" x-bind:class="toggled_burger ? 'navbar-menu is-active' : 'navbar-menu' ">
-                    <div class="navbar-end">
-                      <span class="navbar-item is-active">
-                        <a href="{% url 'denuncias'%}" class="button is-primary is-inverted" href="#">
-                          <span class="icon">
-                            <i class="fas fa-scroll"></i>
-                          </span>
-                          <span>Denuncias</span>
-                        </a>
-                      </span>
-                      <span class="navbar-item">
-                        <a href="{% url 'comisiones'%}" class="button is-primary is-inverted" href="#">
-                          <span class="icon">
-                            <i class="fas fa-users"></i>
-                          </span>
-                          <span>Comisiones</span>
-                        </a>
-                      </span>
-                      <span class="navbar-item">
-                        <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
-                          <span class="icon">
-                            <i class="fas fa-user-friends"></i>
-                          </span>
-                          <span>Usuarios</span>
-                        </a>
-                      </span>
-                      <span class="navbar-item">
-                        <a href="{% url 'logout'%}" class="button is-primary is-inverted">
-                          <span class="icon">
-                            <i class="fa fa-arrow-circle-left"></i>
-                          </span>
-                          <span>Salir</span>
-                        </a>
-                      </span>
-                    </div>
-                </div>
-              </div>
-            </nav>
-          </div>
-        
-          <!-- Hero content: will be in the middle -->
-          <div class="hero-body">
-            <div class="container">
-              <div class="container is-centered">
+{% block content %}
   
-                <!-- Tabla -->
-                <div class="box">
+  {% if user.perfil.es_admin %}
+  
+    <!-- Tabla -->
+    <form class="box" method="post">
 
                     
-                      <div class="container has-text-centered">
-                        <h2 class="subtitle is-5 hero-text">Usuario - usuario</h2>
-                      </div>
-                    
-                      <fieldset disabled="disabled">
+        <div class="container has-text-centered">
+          <h2 class="subtitle is-5 hero-text">Eliminar usuario - {{id}}</h2>
+        </div>
 
-                          <div class="field">
-                            <label class="label">Nombre</label>
-                            <div class="control has-icons-left">
-                              <input class="input" type="text" placeholder="Nombre completo del usuario">
-                              <span class="icon is-small is-left">
-                                <i class="fas fa-smile"></i>
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div class="field">
-                            <label class="label">Usuario</label>
-                            <div class="control has-icons-left has-icons-right">
-                              <input class="input" type="text" placeholder="Usuario">
-                              <span class="icon is-small is-left">
-                                <i class="fas fa-user"></i>
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div class="field">
-                            <label class="label">Contraseña</label>
-                            <div class="control has-icons-left has-icons-right">
-                              <input class="input" type="text" placeholder="Contraseña del usuario">
-                              <span class="icon is-small is-left">
-                                <i class="fas fa-key"></i>
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div class="field">
-                            <label class="label">Categor&iacute;a Docente</label>
-                            <div class="control has-icons-left has-icons-right">
-                              <input class="input" type="text" placeholder="Categor&iacute;a Docente">
-                              <span class="icon is-small is-left">
-                                <i class="fas fa-graduation-cap"></i>
-                              </span>
-                            </div>
-                          </div>
+        {% csrf_token %}
+
+        <fieldset disabled="disabled">
     
+              {% comment %} {{form.as_p}} {% endcomment %}
+              
+              {% for field in user_form %}
+                      {% if field.label == 'Cat docente' or field.label == 'Rol' or field.label == 'Cargo' %}
+                          <div class="mb-2">
+                          <label class="label">{{field.label}}</label>
+                          <div class="select">
+                              {{field}}
+                          </div>
+                          </div>
+                      {% else %}
                           <div class="field">
-                            <label class="label">Rol</label>
-                            <div class="control has-icons-left has-icons-right">
-                              <input class="input" type="text" placeholder="Rol">
+                              <label class="label">{{field.label}}</label>
+                              <div class="control has-icons-left has-icons-right">
+                              {{field}}
                               <span class="icon is-small is-left">
-                                <i class="fas fa-user-tag"></i>
+                                  {% if field.label == 'Usuario' %} <i class="fas fa-user"></i>
+                                  {% elif field.label == 'Nombre' or field.label == 'Apellidos' %} <i class="fas fa-smile"></i>
+                                  {% elif field.label == 'Contraseña' or field.label == "Confirmar contraseña" %} <i class="fas fa-key"></i>
+                                  {% elif field.label == 'Cargo' %} <i class="fas fa-user-cog"></i> 
+                                  {% elif field.label == 'Rol' %} <i class="fas fa-user-tag"></i>
+                                  {% else %} <i class="fas fa-envelope"></i>
+                                  {% endif %}
                               </span>
-                            </div>
+                              </div> 
+                              
                           </div>
-                          
+                      {% endif %}
+                      {% for error in field.errors %}
+                          {{error}}
+                      {% endfor %}
+              {% endfor %}
+      
+                  
+              {% for field in profile_form %}
+                      {% if field.label == 'Cat docente' or field.label == 'Rol' or field.label == 'Cargo' %}
+                          <div class="mb-2">
+                          <label class="label">{{field.label}}</label>
+                          <div class="select">
+                              {{field}}
+                          </div>
+                          </div>
+                      {% else %}
                           <div class="field">
-                            <label class="label">Cargo</label>
-                            <div class="control has-icons-left has-icons-right">
-                              <input class="input" type="text" placeholder="Cargo">
+                              <label class="label">{{field.label}}</label>
+                              <div class="control has-icons-left has-icons-right">
+                              {{field}}
                               <span class="icon is-small is-left">
-                                <i class="fas fa-user-cog"></i>
+                                  {% if field.label == 'Usuario' %} <i class="fas fa-user"></i>
+                                  {% elif field.label == 'Nombre' or field.label == 'Apellidos' %} <i class="fas fa-smile"></i>
+                                  {% elif field.label == 'Contraseña' or field.label == "Confirmar contraseña" %} <i class="fas fa-key"></i>
+                                  {% elif field.label == 'Cargo' %} <i class="fas fa-user-cog"></i> 
+                                  {% elif field.label == 'Rol' %} <i class="fas fa-user-tag"></i>
+                                  {% else %} <i class="fas fa-envelope"></i>
+                                  {% endif %}
                               </span>
-                            </div>
+                              </div> 
+                              
                           </div>
-                      </fieldset>
-                      
-                      <div class="field mt-5">
-                          <div class="control">
-                              <p>¿Est&aacute; seguro que desea eliminar al usuario?</p>
-                          </div>
-                      </div>
+                      {% endif %}
+                      {% for error in field.errors %}
+                          {{error}}
+                      {% endfor %}
+              {% endfor %}
 
-                      <div class="field is-grouped">
-                        <div class="control">
-                          <button class="button is-danger">Eliminar</button>
-                        </div>
-                        <div class="control">
-                          <button class="button is-link is-light">Cancelar</button>
-                        </div>
-                      </div>
-                </div> 
-  
-  
-              </div>
-            </div>
+        </fieldset>
+            
+        <div class="field mt-5">
+          <div class="control">
+              <p>¿Est&aacute; seguro que desea eliminar al usuario?</p>
           </div>
-        
-          <!-- Hero footer: will stick at the bottom -->
-          <div class="hero-foot">
-            <nav class="tabs">
-              <div class="container"></div>
-            </nav>
+        </div>
+    
+        <div class="field is-grouped">
+          <div class="control">
+              <button class="button is-danger" method='POST' type='submit'>Eliminar</button>
           </div>
-        </section>
+          <div class="control">
+              <button class="button is-link is-light" href={% url 'usuarios' %}>Cancelar</button>
+          </div>
+        </div>
+       
+    </form> 
+
+  {% else %}
+
+    <div class="container">
+      <div class="container is-centered is-narrow">
+        <div class="box">
+          <h1 class="hero-text is-text-centered">Lo sentimos, solo los admins pueden estar aqui.</h1>
+        </div>
+      </div>
     </div>
     
-</body>
-</html>
+  {% endif %}
+{% endblock content %}

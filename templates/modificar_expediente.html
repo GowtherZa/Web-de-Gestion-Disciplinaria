@@ -1,170 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/bulma.css'%}">
-    <link rel="stylesheet" href="{% static 'css/all.css'%}">
-    
-    <script defer src="{% static 'js/fa_all.js'%}"></script>
-    <script defer src="{% static 'js/alpine.js'%}"></script>
-    <script defer src="{% static 'js/iodine.min.js'%}"></script>
-    <script defer src="{% static 'js/validations.js'%}"></script>
-    
+{% block title %}
     <title>GDU - Modificar expediente</title>
-</head>
+{% endblock title %}
 
-<body>
-    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
-    <div class="controller" x-data="{ on_mobile: false , toggled_burger : false}">
-      <section x-on:resize.window="on_mobile = (window.innerWidth < 1024) ? true : false" x-bind:class="on_mobile ? 'hero is-primary' : 'hero is-primary is-fullheight'" class="">  
-        <div class="hero-head">
-            <nav class="navbar">
-              <div class="container">
-                <div class="navbar-brand">
-                  <a class="navbar-item">
-                    <figure class="image">
-                      <a>
-                        <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
-                      </a>
-                    </figure>
-                  </a>
-                  <span class="navbar-burger burger" id="burger" @click="toggled_burger = !toggled_burger"  data-target="navbarMenuHeroA">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </span>
-                </div>
-                <div id="navbarMenuHeroA" x-bind:class="toggled_burger ? 'navbar-menu is-active' : 'navbar-menu' ">
-                    <div class="navbar-end">
-                      <span class="navbar-item is-active">
-                        <a href="{% url 'denuncias'%}" class="button is-primary is-inverted" href="#">
-                          <span class="icon">
-                            <i class="fas fa-scroll"></i>
-                          </span>
-                          <span>Denuncias</span>
-                        </a>
-                      </span>
-                      <span class="navbar-item">
-                        <a href="{% url 'comisiones'%}" class="button is-primary is-inverted" href="#">
-                          <span class="icon">
-                            <i class="fas fa-users"></i>
-                          </span>
-                          <span>Comisiones</span>
-                        </a>
-                      </span>
-                      <span class="navbar-item">
-                        <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
-                          <span class="icon">
-                            <i class="fas fa-user-friends"></i>
-                          </span>
-                          <span>Usuarios</span>
-                        </a>
-                      </span>
-                      <span class="navbar-item">
-                        <a href="{% url 'logout'%}" class="button is-primary is-inverted">
-                          <span class="icon">
-                            <i class="fa fa-arrow-circle-left"></i>
-                          </span>
-                          <span>Salir</span>
-                        </a>
-                      </span>
-                    </div>
-                </div>
-              </div>
-            </nav>
-          </div>
-        
-          <!-- Hero content: will be in the middle -->
-          <div class="hero-body">
-            <div class="container">
-              <div class="container is-centered">
-  
-                <!-- Tabla -->
-                <div class="box">
+{% block content %}
 
+    <div class="box">
                     
-                      <div class="container has-text-centered">
-                        <h2 class="subtitle is-5 hero-text">Expediente - ID_Denuncia</h2>
-                      </div>
+        <div class="container has-text-centered">
+        <h2 class="subtitle is-5 hero-text">Expediente - ID_Denuncia</h2>
+        </div>
 
-                      <div class="field">
-                        <label class="label">Nombre</label>
-                        <div class="control has-icons-left">
-                          <input class="input" type="text" placeholder="Nombre completo del usuario denunciado">
-                          <span class="icon is-small is-left">
-                            <i class="fas fa-smile"></i>
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div class="field">
-                        <label class="label">Usuario</label>
-                        <div class="control has-icons-left has-icons-right">
-                          <input class="input" type="text" placeholder="Usuario del denunciado">
-                          <span class="icon is-small is-left">
-                            <i class="fas fa-user"></i>
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div class="field">
-                        <label class="label">Año</label>
-                        <div class="control has-icons-left has-icons-right">
-                          <input class="input" type="text" placeholder="Año acad&eacute;mico del usuario denunciado">
-                          <span class="icon is-small is-left">
-                            <i class="fas fa-key"></i>
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div class="field">
-                        <label class="label">Grupo</label>
-                        <div class="control has-icons-left has-icons-right">
-                          <input class="input" type="text" placeholder="Grupo del usuario denunciado">
-                          <span class="icon is-small is-left">
-                            <i class="fas fa-universal-access"></i>
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div class="field">
-                        <label class="label">Fecha</label>
-                        <div class="control has-icons-left has-icons-right">
-                          <input class="input" type="text" placeholder="Fecha en que se redacta el acta">
-                          <span class="icon is-small is-left">
-                            <i class="fas fa-calendar"></i>
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {% comment %} Link para postear expedientes {% endcomment %}
-                      <div class="field is-grouped">
-                        <div class="control">
-                          <button class="button is-link">Enviar</button>
-                        </div>
-                        <div class="control">
-                          <button class="button is-link is-light">Cancelar</button>
-                        </div>
-                      </div>
-                </div> 
-  
-  
-              </div>
-            </div>
-          </div>
+        <div class="field">
+        <label class="label">Nombre</label>
+        <div class="control has-icons-left">
+            <input class="input" type="text" placeholder="Nombre completo del usuario denunciado">
+            <span class="icon is-small is-left">
+            <i class="fas fa-smile"></i>
+            </span>
+        </div>
+        </div>
         
-          <!-- Hero footer: will stick at the bottom -->
-          <div class="hero-foot">
-            <nav class="tabs">
-              <div class="container"></div>
-            </nav>
-          </div>
-        </section>
-    </div>
-    
-</body>
-</html>
+        <div class="field">
+        <label class="label">Usuario</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Usuario del denunciado">
+            <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+            </span>
+        </div>
+        </div>
+        
+        <div class="field">
+        <label class="label">Año</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Año acad&eacute;mico del usuario denunciado">
+            <span class="icon is-small is-left">
+            <i class="fas fa-key"></i>
+            </span>
+        </div>
+        </div>
+        
+        <div class="field">
+        <label class="label">Grupo</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Grupo del usuario denunciado">
+            <span class="icon is-small is-left">
+            <i class="fas fa-universal-access"></i>
+            </span>
+        </div>
+        </div>
+        
+        <div class="field">
+        <label class="label">Fecha</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Fecha en que se redacta el acta">
+            <span class="icon is-small is-left">
+            <i class="fas fa-calendar"></i>
+            </span>
+        </div>
+        </div>
+        
+        {% comment %} Link para postear expedientes {% endcomment %}
+        <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-link">Enviar</button>
+        </div>
+        <div class="control">
+            <button class="button is-link is-light">Cancelar</button>
+        </div>
+        </div>
+    </div> 
+
+{% endblock content %}

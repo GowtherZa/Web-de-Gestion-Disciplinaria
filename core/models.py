@@ -4,32 +4,35 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
+
 cat_docentes = (
-    ("1","-----"),
-    ("2","Titular"),
-    ("3","Adiestrado"),
-    ("4","Instructor"),
+    ("-----","-----"),
+    ("Titular","Titular"),
+    ("Adiestrado","Adiestrado"),
+    ("Instructor","Instructor"),
 )
 
 cargos = (
-    ("1","-----"),
-    ("2","Profesor"),
-    ("3","J. Apto"),
-    ("4","J. Asig"),
+    ("-----","-----"),
+    ("Instructor","Profesor"),
+    ("J. Apto","J. Apto"),
+    ("J. Asig","J. Asig"),
 )
 
 roles =(
- ("1","Usuario"),
- ("2","Admin")
+ ("Usuario","Usuario"),
+ ("Admin","Admin")
 )
+
 class perfil(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True)
     nombre = models.CharField(max_length=20)
     apellidos = models.CharField(max_length=50)
     correo = models.EmailField(max_length=50) # Valorar cambiar a charfield
-    cargo = models.CharField(max_length=8,choices=cargos,default="1")
-    rol = models.CharField(max_length=7,choices=roles,default="1")
-    cat_d = models.CharField(max_length=10,choices=cat_docentes,default="1")
+    cargo = models.CharField(max_length=15,choices=cargos,default=1)
+    rol = models.CharField(max_length=15,choices=roles,default=1)
+    cat_d = models.CharField(max_length=15,choices=cat_docentes,default=1)
+    un_pass = models.CharField(max_length=30,default="") # Unencrypted pass
     # comisiones 
     # denuncias
 
@@ -37,8 +40,18 @@ class perfil(models.Model):
     def es_admin(self):
         return self.rol == "Admin"
 
+
     def __str__(self):
         return str(self.user)    
+
+    # def __init__(self,nombre,apellidos,correo,cargo,rol,cat_d,un_pass):
+    #     self.nombre = nombre 
+    #     self.apellidos = apellidos 
+    #     self.correo = correo
+    #     self.cargo = cargo
+    #     self.rol = rol
+    #     self.cat_d = cat_d
+    #     self.un_pass = un_pass
 
 class denuncia(models.Model):
     texto = models.CharField(max_length=300)

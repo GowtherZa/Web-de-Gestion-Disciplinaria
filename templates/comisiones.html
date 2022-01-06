@@ -1,193 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
 
-    {% load static%}
-    <link rel="stylesheet" href="{% static 'css/bulma.css'%}">
-    <link rel="stylesheet" href="{% static 'css/all.css'%}">
-    
-    <script defer src="{% static 'js/fa_all.js'%}"></script>
-    <script defer src="{% static 'js/alpine.js'%}"></script>
-    <title>GDU - Comisiones</title>
-</head>
+{% block title %}
+    <title>GDU - Comisiones</title> 
+{% endblock title %}
 
-<body>
-    <!-- Se debe cambiar is-fullheight en mobile para obtener la tabla responsive -->
-    <div class="controller" x-data="{ on_mobile: false , toggled_burger : false}">
-      <section x-on:resize.window="on_mobile = (window.innerWidth < 1024) ? true : false" x-bind:class="on_mobile ? 'hero is-primary' : 'hero is-primary is-fullheight'" class="">  
-        <div class="hero-head">
-            <nav class="navbar">
-              <div class="container">
-                <div class="navbar-brand">
-                  <a class="navbar-item">
-                    <figure class="image">
-                      <a>
-                        <img src="{% static 'rsc/logo-uci.png' %}" alt="Logo">
-                      </a>
-                    </figure>
-                  </a>
-                  <span class="navbar-burger burger" id="burger" @click="toggled_burger = !toggled_burger"  data-target="navbarMenuHeroA">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </span>
-                </div>
-                <div id="navbarMenuHeroA" x-bind:class="toggled_burger ? 'navbar-menu is-active' : 'navbar-menu' ">
-                  <div class="navbar-end">
-                    <span class="navbar-item is-active">
-                      <a href="{% url 'denuncias'%}" class="button is-primary is-inverted" href="#">
-                        <span class="icon">
-                          <i class="fas fa-scroll"></i>
-                        </span>
-                        <span>Denuncias</span>
-                      </a>
-                    </span>
-                    <span class="navbar-item">
-                      <a href="{% url 'comisiones'%}" class="button is-primary is-inverted" href="#">
-                        <span class="icon">
-                          <i class="fas fa-users"></i>
-                        </span>
-                        <span>Comisiones</span>
-                      </a>
-                    </span>
-                    <span class="navbar-item">
-                      <a href="{% url 'usuarios'%}" class="button is-primary is-inverted" href="#">
-                        <span class="icon">
-                          <i class="fas fa-user-friends"></i>
-                        </span>
-                        <span>Usuarios</span>
-                      </a>
-                    </span>
-                    <span class="navbar-item">
-                      <a href="{% url 'logout'%}" class="button is-primary is-inverted">
-                        <span class="icon">
-                          <i class="fa fa-arrow-circle-left"></i>
-                        </span>
-                        <span>Salir</span>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </nav>
-          </div>
-        
-          <!-- Hero content: will be in the middle -->
-          <div class="hero-body">
-            <div class="container">
-              <div class="container is-centered">
-  
+{% block content %}
 
-                <!-- Buscador -->
-                <div class="columns">
-                  <div class="column is-offset-8">
-                    <div class="field has-addons">
-                      <div class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Comision">
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-users"></i>
-                        </span>
-                      </div>
-                      <div class="control">
-                        <a class="button is-info">
-                          Buscar Comision.
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Tabla -->
-                <div class="box">
-
-                  <div class="columns is-centered">
-                    <div class="column is-narrow">
-                      <h1 class="title is-5 hero-text">Listado de comisiones</h1>
-                    </div>
-                  </div>
-
-                  <div class="table-container">
-                    <table class="table is-hoverable is-fullwidth">
-                      <thead>
-                        <tr>
-                          <th><abbr title="Posicion">#</abbr></th>
-                          <th><abbr title="Presidente">Presidente</abbr></th>
-                          <th><abbr title="Secretario">Secretario</abbr></th>
-                          <th><abbr title="Profesor Guia">Profesor Guia</abbr></th>
-                          <th><abbr title="Vocal Feu">Vocal Feu</abbr></th>
-                          <th><abbr title="Otros">Otros</abbr></th>
-                          <th><abbr title="Denuncias">Denuncias</abbr></th>
-                          <th><abbr title="Conteo de vida util de la denuncia">Conteo</abbr></th>
-                        </tr>
-                      </thead>
-                  
-                      <tbody>
-                        {% comment %} Falta agregar las pk a los modificar-eliminar {% endcomment %}
-                        
-                        {% if hay_comisiones %}
-                          <div class="columns is-centered">
-                            <column class="is-narrow">
-                              <p class="hero-text mt-5">Por el momento no hay comisiones para mostrar.</p>
-                            </column>
-                          </div>
-                        {% endif %}
-                        {% for comision in comisiones %}
-                        <tr>
-                          <th><a href="#">{{comision.id}}</a></th>
-                          <td>{{comision.presidente}}</td>
-                          <td>{{comision.secretario}}</td>
-                          <td>{{comision.p_guia}}</td>
-                          <td>{{comision.v_feu}}</td>
-                          <td>{{comision.otros}}</td>
-                          <td>Denuncias</td>
-                          <td>{{comision.dias_utiles}}</td>
-                          <td>
-                            <i class="icon">
-                              <a href="{% url 'm_comision' %}">
-                                  <span  class="fas fa-pencil-alt"></span>
-                                </a>
-                            </i>
-                            <i class="icon">
-                                <a href="{% url 'e_comision'%}">
-                                    <span  class="fas fa-trash-alt"></span>
-                                </a>
-                            </i>
-                        </td>
-                        </tr>
-                        {% endfor %}
-                        
-                        <tr>
-                          <th><a href="{% url 'f_comision'%}"><span class="fas fa-plus-square"></span></a></th>
-                          <td>-</td>  
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div> 
-  
-  
-              </div>
+    <!-- Buscador -->
+    <div class="columns">
+        <div class="column is-offset-8">
+          <div class="field has-addons">
+            <div class="control has-icons-left">
+              <input class="input" type="text" placeholder="Comision">
+              <span class="icon is-small is-left">
+                <i class="fas fa-users"></i>
+              </span>
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                Buscar Comision.
+              </a>
             </div>
           </div>
-        
-          <!-- Hero footer: will stick at the bottom -->
-          <div class="hero-foot">
-            <nav class="tabs">
-              
-            </nav>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="box">
+
+        <div class="columns is-centered">
+          <div class="column is-narrow">
+            <h1 class="title is-5 hero-text">Listado de comisiones</h1>
           </div>
-        </section>
-    </div>
-    
-</body>
-</html>
+        </div>
+
+        <div class="table-container">
+          <table class="table is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th><abbr title="Posicion">#</abbr></th>
+                <th><abbr title="Presidente">Presidente</abbr></th>
+                <th><abbr title="Secretario">Secretario</abbr></th>
+                <th><abbr title="Profesor Guia">Profesor Guia</abbr></th>
+                <th><abbr title="Vocal Feu">Vocal Feu</abbr></th>
+                <th><abbr title="Otros">Otros</abbr></th>
+                <th><abbr title="Denuncias">Denuncias</abbr></th>
+                <th><abbr title="Conteo de vida util de la denuncia">Conteo</abbr></th>
+              </tr>
+            </thead>
+        
+            <tbody>
+              {% comment %} Falta agregar las pk a los modificar-eliminar {% endcomment %}
+              
+              {% if hay_comisiones %}
+                <div class="columns is-centered">
+                  <column class="is-narrow">
+                    <p class="hero-text mt-5">Por el momento no hay comisiones para mostrar.</p>
+                  </column>
+                </div>
+              {% endif %}
+              {% for comision in comisiones %}
+              <tr>
+                <th><a href="#">{{forloop.counter}}</a></th>
+                <td>{{comision.presidente}}</td>
+                <td>{{comision.secretario}}</td>
+                <td>{{comision.p_guia}}</td>
+                <td>{{comision.v_feu}}</td>
+                <td>{{comision.otros}}</td>
+                <td>Denuncias</td>
+                <td>{{comision.dias_utiles}}</td>
+                <td>
+                  <i class="icon">
+                    <a href="{% url 'm_comision' %}">
+                        <span  class="fas fa-pencil-alt"></span>
+                      </a>
+                  </i>
+                  <i class="icon">
+                      <a href="{% url 'e_comision'%}">
+                          <span  class="fas fa-trash-alt"></span>
+                      </a>
+                  </i>
+              </td>
+              </tr>
+              {% endfor %}
+              
+              <tr>
+                <th><a href="{% url 'f_comision'%}"><span class="fas fa-plus-square"></span></a></th>
+                <td>-</td>  
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> 
+
+{% endblock content %}
+
