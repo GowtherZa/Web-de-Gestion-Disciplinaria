@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import denuncia, perfil
+from .models import comision, denuncia, perfil
 
 cat_docentes = (
     ("-----","-----"),
@@ -67,3 +67,24 @@ class DenunciaForm(forms.ModelForm):
         model = denuncia
         fields = ['nombre','apellidos','fecha','hora','area','usuario_d','usuario','texto']
         help_texts = {k:"" for k in fields}
+
+class ComisionForm(forms.ModelForm):
+    presidente = forms.ModelChoiceField(label="Usuario del presidente",queryset=User.objects.all())
+    secretario = forms.ModelChoiceField(label="Usuario del secretario",queryset=User.objects.all())
+    p_guia = forms.ModelChoiceField(label="Usuario del profesor guia",queryset=User.objects.all())
+    v_feu = forms.ModelChoiceField(label="Usuario del vocal feu",queryset=User.objects.all())
+    otros = forms.CharField(label="Otros",widget=forms.TextInput(attrs={'class':'input'}))
+    denuncias = forms.ModelMultipleChoiceField(queryset=denuncia.objects.all(),widget=forms.CheckboxSelectMultiple())
+    
+    class Meta:
+        model = comision
+        fields = ['presidente','secretario','p_guia','v_feu','otros','denuncias']
+        help_texts = {k:"" for k in fields}
+    
+    def save(self, commit=True):
+        instance = super().save(commit)
+        denuncias= self.cleaned_data['denuncias']
+        for denuncia in denuncias:
+            denuncia.actualizar_creacion()
+            instance.denuncia_set.add(denuncia)
+        return instance

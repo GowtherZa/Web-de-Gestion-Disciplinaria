@@ -1,7 +1,8 @@
+
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>GDU - Modificar comisión</title>
+    <title>GDU - Crear comisión</title>
 {% endblock title %}
 
 {% block content %}
@@ -10,7 +11,7 @@
 
                         
     <div class="container has-text-centered">
-    <h2 class="subtitle is-5 hero-text">Comisión - {{id}}</h2>
+    <h2 class="subtitle is-5 hero-text">Nueva comisión</h2>
     </div>
 
     {% csrf_token %}
@@ -78,18 +79,3 @@
 
 {% endblock page_scripts %}
 
-{% block hero_foot %}
-
-    <div class="container">
-        <ul>
-            <div class="navbar-item">
-            
-            <a href="modificar_expediente.html" class="button is-primary is-inverted">
-                <span class="green-text">Crear expediente disciplinario</span>
-            </a>
-            </div>
-        </li>
-        </ul>
-    </div>
-
-{% endblock hero_foot %}

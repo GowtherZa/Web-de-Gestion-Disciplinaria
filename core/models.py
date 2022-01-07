@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from datetime import datetime,date
 
 
 cat_docentes = (
@@ -44,6 +44,28 @@ class perfil(models.Model):
     def __str__(self):
         return str(self.user)    
 
+class comision(models.Model):
+    presidente = models.ForeignKey(User,on_delete=models.PROTECT,related_name='comision_presidente',null=True)
+    secretario =  models.ForeignKey(User,on_delete=models.PROTECT,related_name='comision_secretario',null=True)
+    p_guia =  models.ForeignKey(User,on_delete=models.PROTECT,related_name='comision_p_guia',null=True)
+    v_feu = models.ForeignKey(User,on_delete=models.PROTECT,related_name='comision_v_feu',null=True)
+    otros = models.CharField(max_length=300,null="True")
+    dias_utiles = models.IntegerField(default=30)
+
+    class Meta:
+        verbose_name_plural = 'comisiones'
+
+class expediente(models.Model):
+
+    texto = models.CharField(max_length=300)
+    nombre = models.CharField(max_length=20)
+    apellidos = models.CharField(max_length=50)
+    correo = models.EmailField(max_length=50) # Valorar cambiar a charfield
+    anno_ac = models.CharField(max_length=9)
+    fecha = models.DateField()  # Valorar cambiar a date
+    grupo = models.CharField(max_length=4) 
+    # usuario
+
 class denuncia(models.Model):
     texto = models.CharField(max_length=300)
     nombre = models.CharField(max_length=20)
@@ -56,9 +78,15 @@ class denuncia(models.Model):
     asignada = models.CharField(max_length=2,default="No")
     usuario = models.ForeignKey(User,on_delete=models.PROTECT,related_name='denuncias') 
     fecha_asignada = models.DateField(null="True")
-    # comision 
-    # expediente 
 
+    # 1 denuncia solo pertenece a 1 comision, 1 comision tiene varias denuncias
+    #comision_a = models.ForeignKey(comision, on_delete=models.PROTECT,null=True) 
+    
+    # 1 denuncia puede pertenecer a varias comisiones, 1 comision tiene varias denuncias
+    comision_a = models.ManyToManyField(comision) 
+
+    expediente = models.OneToOneField(expediente,on_delete=models.PROTECT,null=True)
+    
     @property
     def es_valida(self):
         return self.valida
@@ -67,31 +95,26 @@ class denuncia(models.Model):
     def es_asignada(self):
         # validar asignada = (len(comision))>0
         return self.asignada
+    
+    @property
+    def vida_util_de_asignada(self):
+        f_asignada = self.fecha_asignada
+        f_asignada = date(year=f_asignada.year,month=f_asignada.month,day=f_asignada.day)
+        f_actual = date.today()
+        dias = f_actual - f_asignada
+        if dias == "0:00:00":
+            dias = "Vencio hoy"
+        else:
+            dias = 30 - dias.days
+            if int(dias) < 0 :
+                dias = f"Vencida hace {dias*-1}"
+        return dias
+
+    def actualizar_creacion(self):
+        self.fecha_asignada = datetime.today()
 
     def __str__(self):
         return str(f'{self.usuario.username} -> {self.usuario_d}')   
 
-class expediente(models.Model):
 
-    texto = models.CharField(max_length=300)
-    nombre = models.CharField(max_length=20)
-    apellidos = models.CharField(max_length=50)
-    correo = models.EmailField(max_length=50) # Valorar cambiar a charfield
-    anno_ac = models.CharField(max_length=9)
-    fecha = models.DateField()  # Valorar cambiar a date
-    grupo = models.CharField(max_length=4) 
-    denuncia = models.OneToOneField(denuncia,on_delete=models.CASCADE,null=True)
-    # usuario
 
-class comision(models.Model):
-    presidente = models.CharField(max_length=10)
-    secretario = models.CharField(max_length=10)
-    p_guia = models.CharField(max_length=10)
-    v_feu = models.CharField(max_length=10)
-    otros = models.CharField(max_length=300)
-    # fecha_creacion = models.DateTimeField(default=timezone.now)
-    dias_utiles = models.IntegerField(default=30)
-    # denuncias
-
-    class Meta:
-        verbose_name_plural = 'comisiones'

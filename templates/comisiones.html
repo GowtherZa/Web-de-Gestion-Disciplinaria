@@ -28,6 +28,14 @@
       <!-- Tabla -->
       <div class="box">
 
+        {% if messages %}
+            {% for message in messages  %}
+                <div class="notification {{message.tags}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="columns is-centered">
           <div class="column is-narrow">
             <h1 class="title is-5 hero-text">Listado de comisiones</h1>
@@ -45,12 +53,11 @@
                 <th><abbr title="Vocal Feu">Vocal Feu</abbr></th>
                 <th><abbr title="Otros">Otros</abbr></th>
                 <th><abbr title="Denuncias">Denuncias</abbr></th>
-                <th><abbr title="Conteo de vida util de la denuncia">Conteo</abbr></th>
+                <th><abbr title="Conteo de dias de vida util de la denuncia">Dias U.</abbr></th>
               </tr>
             </thead>
         
             <tbody>
-              {% comment %} Falta agregar las pk a los modificar-eliminar {% endcomment %}
               
               {% if hay_comisiones %}
                 <div class="columns is-centered">
@@ -62,21 +69,43 @@
               {% for comision in comisiones %}
               <tr>
                 <th><a href="#">{{forloop.counter}}</a></th>
-                <td>{{comision.presidente}}</td>
+                <td><a href={% url 'm_usuario' comision.presidente.id %}>{{comision.presidente}}</a></td>
                 <td>{{comision.secretario}}</td>
                 <td>{{comision.p_guia}}</td>
                 <td>{{comision.v_feu}}</td>
                 <td>{{comision.otros}}</td>
-                <td>Denuncias</td>
-                <td>{{comision.dias_utiles}}</td>
+                <td>
+                    {% if comision.denuncia_set.all  %}
+                      {% for denuncia in comision.denuncia_set.all  %}
+                        {% comment %} {% if denuncia != comision.denuncia_set.last %}
+                          <a href={% url 'm_denuncia' denuncia.id%}>{{denuncia.id}}</a> ,
+                        {% else %}
+                          <a href={% url 'm_denuncia' denuncia.id%}>{{denuncia.id}}</a> {% endcomment %}
+                          <a href={% url 'm_denuncia' denuncia.id%}>{{denuncia.id}}</a> ,
+                        {% comment %} {% endif %} {% endcomment %}
+                      {% endfor %}
+                    {% else %}
+                      ----- 
+                    {% endif %}
+
+                </td>
+                <td>
+                  {% if comision.denuncia_set.all  %}
+                      {% for denuncia in comision.denuncia_set.all  %}
+                          {{denuncia.vida_util_de_asignada}} ,
+                      {% endfor %}
+                  {% else %}
+                      ----- 
+                  {% endif %}
+                </td>
                 <td>
                   <i class="icon">
-                    <a href="{% url 'm_comision' %}">
+                    <a href="{% url 'm_comision' comision.id %}">
                         <span  class="fas fa-pencil-alt"></span>
                       </a>
                   </i>
                   <i class="icon">
-                      <a href="{% url 'e_comision'%}">
+                      <a href="{% url 'e_comision' comision.id %}">
                           <span  class="fas fa-trash-alt"></span>
                       </a>
                   </i>

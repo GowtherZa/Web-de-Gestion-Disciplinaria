@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>GDU - Eliminar comision</title>
+    <title>GDU - Eliminar comisión</title>
 {% endblock title %}
 
 {% block content %}
 
     <!-- Tabla -->
-    <div class="box">
+    <form class="box" method="POST">
+        
+        {% csrf_token %}
 
         <fieldset disabled="disabled">
             <div class="container has-text-centered">
-              <h2 class="subtitle is-5 hero-text">Comision - ID</h2>
+              <h2 class="subtitle is-5 hero-text">Comisión - {{id}}</h2>
             </div>
 
             <div class="field">
               <label class="label">Presidente</label>
               <div class="control has-icons-left">
-                <input class="input" type="text" placeholder="Usuario del presidente de la comision">
+                <input class="input" type="text" placeholder={{comision.presidente}}>
                 <span class="icon is-small is-left">
                   <i class="fas fa-smile"></i>
                 </span>
@@ -27,7 +29,7 @@
             <div class="field">
               <label class="label">Secretario</label>
               <div class="control has-icons-left has-icons-right">
-                <input class="input" type="text" placeholder="Usuario del secretario de la comision">
+                <input class="input" type="text" placeholder={{comision.secretario}}>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -37,7 +39,7 @@
             <div class="field">
               <label class="label">Profesor gu&iacute;a</label>
               <div class="control has-icons-left has-icons-right">
-                <input class="input" type="text" placeholder="Profesor gu&iacute;a al frente de la denuncia">
+                <input class="input" type="text" placeholder={{comision.p_guia}}>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -47,7 +49,7 @@
             <div class="field">
               <label class="label">Vocal FEU</label>
               <div class="control has-icons-left has-icons-right">
-                <input class="input" type="text" placeholder="Hora en la que ocurre el incidente">
+                <input class="input" type="text" placeholder={{comision.v_feu}}>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -57,25 +59,42 @@
             <div class="field">
                 <label class="label">Denuncia Asociada</label>
                 <div class="control has-icons-left has-icons-right">
-                  <input class="input" type="text" placeholder="Denuncia ID">
+                  <input class="input" type="text" 
+                  placeholder=
+                  {% for denuncia in comision.denuncia_set.all %}
+                    denuncia ,
+                  {% endfor %}
+                  >
                   <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                   </span>
                 </div>
             </div>
-            
-            </div>
-            
 
-            <div class="field is-grouped">
-                <div class="control">
-                  <button class="button is-danger">Eliminar</button>
-                </div>
-                <div class="control">
-                  <button class="button is-link is-light">Cancelar</button>
-                </div>
-            </div>
         </fieldset>
-    </div> 
+
+        <div class="field is-grouped mt-2">
+          <div class="control">
+            <button type="submit" method="POST" class="button is-danger">Eliminar</button>
+          </div>
+          <div class="control">
+            <button class="button is-link is-light">Cancelar</button>
+          </div>
+      </div>
+    </form> 
 
 {% endblock content %}
+
+{% block page_scripts %}
+
+<script>
+
+    tag = document.getElementById('M2M')
+  
+    tag.style = 'height:100px; overflow:auto; width:250px'
+
+    console.log(tag.style)
+
+</script>
+
+{% endblock page_scripts %}
