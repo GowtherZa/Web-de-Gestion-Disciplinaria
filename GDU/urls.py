@@ -36,5 +36,6 @@ urlpatterns = [
     path('m_usuario/<id>/',core.views.m_usuario, name='m_usuario'),
     path('m_comision/modificar_expediente.html/',core.views.m_expediente, name='m_expediente'),
     path('e_comision/<id>/',core.views.e_comision,name='e_comision'),
-    path('e_usuario/<id>/',core.views.e_usuario,name='e_usuario')
+    path('e_usuario/<id>/',core.views.e_usuario,name='e_usuario'),
+    path('i_denuncia/<id>/',core.views.i_denuncia,name='i_denuncia')
 ]

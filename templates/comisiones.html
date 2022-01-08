@@ -6,25 +6,6 @@
 
 {% block content %}
 
-    <!-- Buscador -->
-    <div class="columns">
-        <div class="column is-offset-8">
-          <div class="field has-addons">
-            <div class="control has-icons-left">
-              <input class="input" type="text" placeholder="Comision">
-              <span class="icon is-small is-left">
-                <i class="fas fa-users"></i>
-              </span>
-            </div>
-            <div class="control">
-              <a class="button is-info">
-                Buscar Comision.
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Tabla -->
       <div class="box">
 
@@ -69,7 +50,7 @@
               {% for comision in comisiones %}
               <tr>
                 <th><a href="#">{{forloop.counter}}</a></th>
-                <td><a href={% url 'm_usuario' comision.presidente.id %}>{{comision.presidente}}</a></td>
+                <td>{{comision.presidente}}</td>
                 <td>{{comision.secretario}}</td>
                 <td>{{comision.p_guia}}</td>
                 <td>{{comision.v_feu}}</td>
@@ -127,6 +108,30 @@
             </tbody>
           </table>
         </div>
+
+        {% comment %} Paginator {% endcomment %}
+        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+          <ul class="pagination-list">
+            {% if comisiones.has_previous %}
+
+                <li><a href="?page=1" class="pagination-link" aria-label="Goto page 1">Primera</a></li>
+
+                <li><a href="?page={{comisiones.previous_page_number}}" class="pagination-link" aria-label="Goto page {{comisiones.previous_page_number}}">Anterior</a></li>
+
+            {% endif %}
+
+            {% if comisiones.has_next %}
+            
+              <li><a href="?page={{comisiones.next_page_number}}" class="pagination-link" aria-label="Goto page 1">Siguiente</a></li>
+
+              <li><a href="?page={{comisiones.paginator.num_pages}}" class="pagination-link" aria-label="Goto page {{comisiones.paginator.num_pages}}">Última</a></li>
+            
+            {% endif %}
+          </ul>
+        </nav>
+        
+      </div> 
+
       </div> 
 
 {% endblock content %}

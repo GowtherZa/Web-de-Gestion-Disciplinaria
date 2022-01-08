@@ -6,8 +6,10 @@
 
 {% block content %}
 
-    <!-- Tabla -->
-    <form class="box" method="POST">
+{% if user.perfil.es_admin %}
+
+  <!-- Tabla -->
+  <form class="box" method="POST">
         
         {% csrf_token %}
 
@@ -81,7 +83,18 @@
             <button class="button is-link is-light">Cancelar</button>
           </div>
       </div>
-    </form> 
+  </form>
+
+{% else %}
+
+  <div class="box">
+    <div class="container has-text-centered">
+      <h1 class="title is-3 hero-text">Oops.....</h1>
+      <h2 class="subtitle is-5 hero-text">Lo sentimos, solo los admins pueden estar aqui.</h2>
+    </div>
+  </div> 
+
+{% endif %}
 
 {% endblock content %}
 

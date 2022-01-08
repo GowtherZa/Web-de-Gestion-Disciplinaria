@@ -6,6 +6,9 @@
 
 {% block content %}
 
+{% if user.perfil.es_admin %}
+
+
     {% if messages %}
         {% for message in messages  %}
             <div class="notification {{message.tags}}">
@@ -19,7 +22,7 @@
 
                     
         <div class="container has-text-centered">
-          <h2 class="subtitle is-5 hero-text">Nuevo usuario</h2>
+        <h2 class="subtitle is-5 hero-text">Nuevo usuario</h2>
         </div>
 
         {% csrf_token %}
@@ -88,14 +91,25 @@
         {% endfor %}
         
         <div class="field is-grouped">
-          <div class="control">
+        <div class="control">
             <button onclick="validate(event)" action="POST" type="submit" class="button is-link">Enviar</button>
-          </div>
-          <div class="control">
-            <button class="button is-link is-light" href={% url 'usuarios' %}>Cancelar</button>
-          </div>
         </div>
-  </form>
+        <div class="control">
+            <button class="button is-link is-light" href={% url 'usuarios' %}>Cancelar</button>
+        </div>
+        </div>
+    </form> 
+
+{% else %}
+
+    <div class="box">
+        <div class="container has-text-centered">
+            <h1 class="title is-3 hero-text">Oops.....</h1>
+            <h2 class="subtitle is-5 hero-text">Lo sentimos, solo los admins pueden estar aqui.</h2>
+        </div>
+    </div> 
+
+{% endif %}
 
 {% endblock content %}
 

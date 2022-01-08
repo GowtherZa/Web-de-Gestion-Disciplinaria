@@ -6,26 +6,6 @@
 
 
 {% block content %}
-
-<!-- Buscador -->
-<div class="columns">
-    <div class="column is-offset-8">
-      <div class="field has-addons">
-        <div class="control has-icons-left">
-          <input class="input" type="text" placeholder="Denuncia">
-          <span class="icon is-small is-left">
-            <i class="fas fa-scroll"></i>
-          </span>
-        </div>
-        <div class="control">
-          <a class="button is-info">
-            Buscar Denuncia.
-          </a>
-        </div>
-      </div>
-    </div>
-   </div>
-
   <!-- Tabla -->
   <div class="box">
 
@@ -50,7 +30,8 @@
             <th><abbr title="Hora de la denuncia">Hora</abbr></th>
             <th><abbr title="Estado de la denuncia">Estado</abbr></th>
             <th><abbr title="Define si se ha asignado la denuncia a alguna comision">Asignada</abbr></th>
-            <th><abbr title="Listado de ids de las comisiones asignadas">Comisiones</abbr></th>
+            <th><abbr title="Descripción detallada de la denuncia">Detalles</abbr></th>
+            {% comment %} <th><abbr title="Listado de ids de las comisiones asignadas">Comisiones</abbr></th> {% endcomment %}
           </tr>
         </thead>
     
@@ -68,20 +49,14 @@
               {% comment %} <td>{{denuncia.texto}}</td> {% endcomment %}
               <td>{{denuncia.nombre}}</td>
               <td>{{denuncia.apellidos}}</td>
-              <td>{{denuncia.usuario_d}}</td>
               <td>{{denuncia.usuario.username}}</td>
+              <td>{{denuncia.usuario_d}}</td>
               <td>{{denuncia.area}}</td>
               <td>{{denuncia.fecha}}</td>
               <td>{{denuncia.hora}}</td>
               <td>{{denuncia.estado}}</td>
               <td>{{denuncia.asignada}}</td>
-              <td>
-                {% if denuncia.asignada == "Si" %}
-                  Comisiones
-                {% else %}
-                   -----
-                {% endif %}
-              </td>
+              <td><a href={% url 'i_denuncia' denuncia.id %} class="is-linkable">Inspeccionar</a></td>
               <td>
                 <i class="icon">
                   <a href="{% url 'm_denuncia' denuncia.id %}">
@@ -105,6 +80,30 @@
         </tbody>
       </table>
     </div>
+
+    {% comment %} Paginator {% endcomment %}
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+      <ul class="pagination-list">
+        {% if denuncias.has_previous %}
+
+            <li><a href="?page=1" class="pagination-link" aria-label="Goto page 1">Primera</a></li>
+
+            <li><a href="?page={{denuncias.previous_page_number}}" class="pagination-link" aria-label="Goto page {{denuncias.previous_page_number}}">Anterior</a></li>
+
+        {% endif %}
+
+        {% if denuncias.has_next %}
+        
+          <li><a href="?page={{denuncias.next_page_number}}" class="pagination-link" aria-label="Goto page 1">Siguiente</a></li>
+
+          <li><a href="?page={{denuncias.paginator.num_pages}}" class="pagination-link" aria-label="Goto page {{denuncias.paginator.num_pages}}">Última</a></li>
+        
+        {% endif %}
+      </ul>
+    </nav>
+  
+  </div> 
+
   </div> 
 
 

@@ -6,61 +6,75 @@
 
 {% block content %}
 
-<form class="box" id="form" method="POST">
+{% if user.perfil.es_admin %}
 
-                        
-    <div class="container has-text-centered">
-    <h2 class="subtitle is-5 hero-text">Comisión - {{id}}</h2>
-    </div>
+    <form class="box" id="form" method="POST">
 
-    {% csrf_token %}
+                            
+        <div class="container has-text-centered">
+        <h2 class="subtitle is-5 hero-text">Comisión - {{id}}</h2>
+        </div>
 
-    {% for field in form %}
-        {% if 'Usuario' in field.label  %}
+        {% csrf_token %}
 
-            <div>
+        {% for field in form %}
+            {% if 'Usuario' in field.label  %}
+
+                <div>
+                    <label class="label">{{field.label}}</label>
+                    <div class="select">
+                        {{field}}
+                    </div>
+                </div>
+
+            {% elif 'Denuncias' in field.label %}
+
+            <div class="scrollable">
                 <label class="label">{{field.label}}</label>
-                <div class="select">
+                <div class="select is-multiple mb-2" id="M2M">
                     {{field}}
                 </div>
             </div>
 
-        {% elif 'Denuncias' in field.label %}
-
-        <div class="scrollable">
-            <label class="label">{{field.label}}</label>
-            <div class="select is-multiple mb-2" id="M2M">
-                {{field}}
-            </div>
-        </div>
-
-        {% else %}
-            <div class="field">
-                <label class="label">{{field.label}}</label>
-                <div class="control has-icons-left has-icons-right">
-                    {{field}}
-                    <span class="icon is-small is-left">
-                       <i class="fas fa-user"></i>
-                    </span>
-                </div> 
-                
-            </div>
-        {% endif %}
-        {% for error in field.errors %}
-            {{error}}
+            {% else %}
+                <div class="field">
+                    <label class="label">{{field.label}}</label>
+                    <div class="control has-icons-left has-icons-right">
+                        {{field}}
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                        </span>
+                    </div> 
+                    
+                </div>
+            {% endif %}
+            {% for error in field.errors %}
+                {{error}}
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-    
-    
-    <div class="field is-grouped">
-    <div class="control">
-        <button class="button is-link" method="POST" type="submit">Enviar</button>
+        
+        
+        <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-link" method="POST" type="submit">Enviar</button>
+        </div>
+        <div class="control">
+            <button class="button is-link is-light">Cancelar</button>
+        </div>
+        </div>
+    </form> 
+
+{% else %}
+
+  <div class="box">
+    <div class="container has-text-centered">
+      <h1 class="title is-3 hero-text">Oops.....</h1>
+      <h2 class="subtitle is-5 hero-text">Lo sentimos, solo los admins pueden estar aqui.</h2>
     </div>
-    <div class="control">
-        <button class="button is-link is-light">Cancelar</button>
-    </div>
-    </div>
-</form> 
+  </div> 
+
+{% endif %}
+
 
 {% endblock content %}
 

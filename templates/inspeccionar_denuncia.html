@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>GDU - Modificar denuncia</title>
+    <title>GDU - Inspeccionar denuncia</title>
 {% endblock title %}
 
 {% block content %}
 
     {% if user.perfil.es_admin or user.id == denunciante %}
     
-        <form class="box" id="form" method="POST">
+        <div class="box">
                             
             <div class="container has-text-centered">
             <h2 class="subtitle is-5 hero-text">Denuncia - {{id}}</h2>
@@ -48,28 +48,24 @@
                         
                     </div>
                 {% endif %}
-                {% for error in field.errors %}
-                    {{error}}
-                {% endfor %}
+                
             {% endfor %}
-            
             
             <div class="field is-grouped">
                 <div class="control">
-                    <button class="button is-warning" method="POST" type="submit">Modificar</button>
-                </div>
-                <div class="control">
-                    <button href={% url 'denuncias' %} class="button is-link is-light">Cancelar</button>
+                    <button href={% url 'denuncias' %} class="button is-link">Regresar</button>
                 </div>
             </div>
-        </form> 
+
+            
+        </div> 
     
     {% else %}
 
         <div class="box">
             <div class="container has-text-centered">
                 <h1 class="title is-3 hero-text">Oops.....</h1>
-                <h2 class="subtitle is-5 hero-text">Lo sentimos, solo los admins y el usuario denunciante pueden estar aqui.</h2>
+                <h2 class="subtitle is-5 hero-text">Lo sentimos, solo los adminsy el usuario denunciante pueden estar aqui.</h2>
             </div>
         </div> 
 

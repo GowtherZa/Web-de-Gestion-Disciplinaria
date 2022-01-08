@@ -113,6 +113,12 @@ class denuncia(models.Model):
     def actualizar_creacion(self):
         self.fecha_asignada = datetime.today()
 
+    def actualizar_asignada(self):
+        if self.asignada == "No":
+            self.asignada = "Si"
+        else:
+            self.asignada = "No"
+
     def __str__(self):
         return str(f'{self.usuario.username} -> {self.usuario_d}')   
 

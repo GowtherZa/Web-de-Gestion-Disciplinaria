@@ -12,31 +12,93 @@ from django.core.paginator import Paginator
 
 @login_required
 def denuncias(request):
-    denuncias = denuncia.objects.all
+
+    if request.user.perfil.es_admin:
+
+        denuncias_i = denuncia.objects.all().order_by("id")
+
+    else:
+
+        denuncias_i = denuncia.objects.filter(usuario=request.user).order_by("id")
+
+    p = Paginator(denuncias_i,5)
+    page = request.GET.get('page')
+    denuncias_i = p.get_page(page)
+
     cant = denuncia.objects.count() == 0
-    context = {'denuncias':denuncias,'hay_denuncias':cant}
+    context = {'denuncias':denuncias_i,'hay_denuncias':cant}
     return render(request,'denuncias.html',context)
 
 @login_required
 def usuarios(request):
-    perfiles = perfil.objects.all()
 
-    # Las lineas 23-28 aseguran que los usuarios no activos no aparezcan.
+    if request.method == "POST":
+
+        criteria = request.POST['criteria']
+
+
+        perfiles = perfil.objects.filter(nombre__icontains=criteria)
+
+
+    else:
+
+        perfiles = perfil.objects.all()
+
+    # Las lineas 47-52 aseguran que los usuarios no activos no aparezcan.
     perfiles_activos = [] 
 
     for perfil_i in perfiles:
         if perfil_i.user.is_active:
             perfiles_activos.append(perfil_i) # 
 
-    cant = perfil.objects.count() == 0
-    context = {'perfiles':perfiles_activos,'hay_perfiles':cant}
+    p = Paginator(perfiles_activos,5)
+    page = request.GET.get('page')
+    perfiles = p.get_page(page)
+
+    cant = len(perfiles_activos) == 0    
+    
+    context = {'perfiles':perfiles,'hay_perfiles':cant}
     return render(request,'usuarios.html',context)
 
 @login_required
 def comisiones(request):
-    comisiones = comision.objects.all()
+
+    if request.user.perfil.es_admin:
+
+        comisiones_i = comision.objects.all().order_by("id")
+
+    else:
+
+        usuario = request.user
+
+        es_profesor = comision.objects.filter(presidente=usuario).exists()
+
+        es_secretario = comision.objects.filter(secretario=usuario).exists()
+
+        es_p_guia = comision.objects.filter(p_guia=usuario).exists()
+
+        es_v_feu = comision.objects.filter(v_feu=usuario).exists()
+
+        comisiones_i = []
+
+        if es_profesor:
+            comisiones_i.append(comision.objects.filter(presidente=usuario))
+        elif es_secretario:
+            comisiones_i.append(comision.objects.filter(secretario=usuario))
+        elif es_p_guia:
+            comisiones_i.append(comision.objects.filter(p_guia=usuario))
+        elif es_v_feu:
+            comisiones_i.append(comision.objects.filter(presidente=usuario))
+
+        comisiones_i = comisiones_i[0].order_by("id")
+
+    p = Paginator(comisiones_i,5)
+    page = request.GET.get('page')
+    comisiones_i = p.get_page(page)
+
     cant = comision.objects.count() == 0
-    context = {'comisiones':comisiones,'hay_comisiones':cant}
+    
+    context = {'comisiones':comisiones_i,'hay_comisiones':cant}
     return render(request,'comisiones.html',context)
 
 def index(request):
@@ -68,10 +130,11 @@ def f_denuncia(request):
 def f_usuario(request):
 
     if request.method == 'POST':
-        print("________VALID_________")
+        
         user_form = UserRegisterForm(request.POST)
         profile_form = UserProfileRegisterForm(request.POST,initial=[])
         if user_form.is_valid() and profile_form.is_valid():
+
             # Guardamos el usuario
             user_form.save() 
 
@@ -144,7 +207,9 @@ def m_denuncia(request,id):
     
     form = DenunciaForm(instance=denuncia_i)
 
-    context = {'id':id,'form':form}
+    id_denunciante = denuncia_i.usuario.id
+
+    context = {'id':id,'form':form,'denunciante':id_denunciante}
 
     if request.method == 'POST':
     
@@ -337,24 +402,16 @@ def e_comision(request,id):
 
 # 
 
+@login_required
+def i_denuncia(request,id):
 
-# Testeo
-def test(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            messages.success(request,f'Usuario {username} creado')
-    else:
-        form = UserRegisterForm()
+    denuncia_i = get_object_or_404(denuncia,id=id)
     
-    context = {'form':form}
-    return render(request,'modificar_comision.html',context)
+    form = DenunciaForm(instance=denuncia_i)
 
-    # usuario = User.objects.filter(username="Boza").exists()
-    # if not usuario:
-    #     usuario = User.objects.create(username="Boza",password="123")
-    # else:
-    #     usuario = User.objects.get(username="Boza")
-    # return render(request,'test.html',{'usuario':usuario.perfil})
-# 
+    id_denunciante = denuncia_i.usuario.id
+
+    context = {'id':id,'form':form,'denunciante':id_denunciante}
+
+
+    return render(request,'inspeccionar_denuncia.html',context)
