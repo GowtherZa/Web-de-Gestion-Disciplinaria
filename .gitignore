@@ -8,3 +8,4 @@ media/
 todo.txt
 # settings.py
 
+.venv
